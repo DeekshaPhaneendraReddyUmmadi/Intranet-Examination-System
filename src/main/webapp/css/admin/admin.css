@@ -1,0 +1,33 @@
+@charset "UTF-8";
+body {
+  background-color: #84a2d1;
+}
+
+.login-container {
+  max-width: 400px;
+  margin: auto;
+  margin-top: 90px;
+  border: 5px solid #645959;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+}
+
+.logo {
+  max-width: 100px;
+  /* Adjust the max-width of the logo as needed */
+  margin-bottom: 20px;
+  /* Add margin to create space between the logo and the heading */
+  margin-top: 10px;
+  margin-left: 135px;
+  max-width: 80px;
+  /* Adjust the max-width to decrease the size of the logo */
+}
+
+button {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 120px;
+  width: 35%;
+
+}

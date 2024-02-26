@@ -1,0 +1,165 @@
+body {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    background-color: #F7FDFE;
+
+}
+
+form {
+    text-align: center;
+    background-color: #1EC7CE;
+    padding: 25px 50px;
+    border-radius: 20px;
+    width: 80vw;
+
+}
+
+h1 {
+    color: white;
+}
+
+.questionContainer {
+    background-color: white;
+    padding: 20px 20px;
+    border-radius: 15px;
+
+}
+
+.uploadForm,
+.u_q,
+.question {
+    display: flex;
+    justify-content: center;
+}
+
+.button-container {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    /* Two columns */
+    justify-content: center;
+    /* Center items */
+    gap: 250px;
+    /* Adjust the gap between items */
+}
+
+.uploadButton,
+.uploadAndNewButton {
+    font-size: 15px;
+    background-color: #02C7CA;
+    border: none;
+    padding: 15px 80px;
+    border-radius: 50px;
+    color: white;
+    width: 16rem;
+    text-align: center;
+    transition: all 0.3s;
+    /* Smooth transition on hover */
+    font-weight: bold;
+
+}
+
+.uploadButton:hover,
+.uploadAndNewButton:hover {
+    background-color: white;
+    color: #02C7CA;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    /* Transparent shadow */
+    border: 1px solid #ddd;
+    /* Light gray border */
+    font-weight: bolder;
+}
+
+.question {
+    align-items: center 
+    height: 35px;
+    font-size: 30px;
+    margin: 50px auto;
+
+}
+
+#question-preview{
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0 auto;
+    /* Center horizontally */
+}
+
+.questionLabel {
+    color: #01C7CC;
+    background-color: white;
+    /* Light gray background */
+    border: 1px solid #ddd;
+    /* Light gray border */
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    /* Transparent shadow */
+    padding: 5px 50px;
+    border-radius: 10px;
+    transition: all 0.3s;
+    /* Smooth transition on hover */
+}
+
+.questionLabel:hover {
+    border-color: rgb(235, 247, 250);
+    /* Change border color on hover */
+    background-color: #EFEFEF;
+    /* Change background color on hover */
+    box-shadow: 1px 1px 1px rgb(30, 199, 206);
+    /* Enhance shadow on hover */
+}
+
+
+.options-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+}
+
+.option {
+    font-size: 20px;
+    position: relative;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border: 1px solid #ddd;
+    /* Light gray border */
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    /* Transparent shadow */
+    border-radius: 10px;
+    text-align: center;
+
+}
+
+.option:hover {
+    border-color: rgb(235, 247, 250);
+    /* Change border color on hover */
+    background-color: #EBF8FB;
+    /* Change background color on hover */
+    box-shadow: 1px 1px 1px rgb(30, 199, 206);
+    /* Enhance shadow on hover */
+}
+
+.option input[type="file"],
+#image1 {
+    display: none;
+}
+
+.option label {
+    cursor: pointer;
+}
+
+.option img {
+    max-width: 100%;
+    max-height: 100%;
+    display: none;
+    margin: 0 auto;
+    /* Center horizontally */
+}
+
+
+
+
+#correct_option {
+    width: 40px;
+}

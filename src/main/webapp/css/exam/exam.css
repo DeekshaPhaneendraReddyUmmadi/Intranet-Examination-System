@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+#options-container{
+	display:flex;
+	justify-content:center;
+}
+
+#timer{
+	text-align:right;
+}

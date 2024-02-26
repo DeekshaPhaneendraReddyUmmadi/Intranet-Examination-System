@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Website Title</title>
+    <link rel="stylesheet" href="../../css/kgcet/example.css">
+</head>
+<body>
+
+    <header>
+        <!-- Your banner image and text go here -->
+        <h1></h1>
+    </header>
+
+     <nav>
+        <a href="index.html">HOME</a>
+        <a href="about.html">ABOUT US</a>
+        <a href="impdates.html">IMPORTANT DATES</a>
+        <a href="contact.html">CONTACT US</a>
+    </nav>
+
+    <section>
+        <div class="vision-mission">
+            <h2>Vision</h2>
+            <p>To evolve as center of repute for providing quality academic programs amalgamated with creative learning and research excellence to produce graduates with leadership qualities, ethical and human values to serve the nation.
+            To produce highly competent professional leaders for contributing to Socio-economic development of region and the nation.</p>
+
+            <h2>Mission</h2>
+            <p>M1:To provide high quality education with enriched curriculum blended with impactful teaching-learning practices.
+
+            M2:To promote research, entrepreneurship and innovation through industry collaborations.
+
+            M3:To produce highly competent professional leaders for contributing to Socio-economic development of region and the nation.
+             To produce highly competent professional leaders for contributing to Socio-economic development of region and the nation.</p>>
+        </div>
+
+        <div class="button-container">
+            <button>Application Form</button>
+            <button>Print Application</button>
+            <button>Download Hall Ticket</button>
+            <button>Results</button>
+        </div>
+    </section>
+
+    <script>
+        // Add event listeners to each navigation link
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                // Remove 'active' class from all links
+                navLinks.forEach(navLink => navLink.classList.remove('active'));
+
+                // Add 'active' class to the clicked link
+                link.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

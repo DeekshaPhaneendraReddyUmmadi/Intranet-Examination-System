@@ -1,0 +1,161 @@
+// Set the duration in milliseconds
+const duration = 180 * 60 * 1000; // 180 minutes * 60 seconds * 1000 milliseconds
+
+// Calculate the start time (3:00 PM)
+const startTime = new Date();
+startTime.setHours(19); // Set the hours to 15 for 3:00 PM
+startTime.setMinutes(41);
+startTime.setSeconds(0);
+
+// Convert the start time to milliseconds since the Unix Epoch
+const startTimeInMillis = startTime.getTime();
+
+// Calculate the end time by adding the duration to the start time
+const endTime = startTimeInMillis + duration;
+
+// Update the timer every second
+const timerElement = document.getElementById('timer'); // Assuming you have an element with id 'timer' to display the timer
+
+function updateTimer() {
+    // Get the current time
+    const currentTime = new Date().getTime();
+
+    const remainingTime = endTime - currentTime;
+
+    if (remainingTime <= 0) {
+        clearTimeout(timerInterval);
+        console.log('Timer expired!');
+        return;
+    }
+
+    const minutes = Math.floor(remainingTime / (1000 * 60));
+    const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+    timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+    timerInterval = setTimeout(updateTimer, 1000);
+}
+
+updateTimer();
+
+
+function openExam() {
+    var url = "quizTestingQuestioins.jsp"; // URL of the exam interface HTML file
+    //var windowFeatures = "width=800,height=600,resizable=yes"; // Customize window features
+    var windowFeatures = "width=" + window.screen.availWidth + ",height=" + window.screen.availHeight + ",resizable=no,toolbar=no,location=no,menubar=no,status=no";
+    window.open(url, "_blank", windowFeatures);
+}
+
+function submitExam() {
+        // Perform any final actions before submitting the exam form
+    document.forms['quizForm'].submit();
+}
+
+document.getElementById('actualSaveAndNext').addEventListener('click', function() {
+    // Trigger click event of the submit button when the other button is clicked
+    document.getElementById('saveAndNext').click();
+});
+
+
+function clearResponse() {
+    document.getElementById("quizForm").reset();
+}
+
+
+function openExam() {
+    var url = "quizTestingQuestioins.jsp"; // URL of the exam interface HTML file
+    //var windowFeatures = "width=800,height=600,resizable=yes"; // Customize window features
+    var windowFeatures = "width=" + window.screen.availWidth + ",height=" + window.screen.availHeight + ",resizable=no,toolbar=no,location=no,menubar=no,status=no";
+    window.open(url, "_blank", windowFeatures);
+}
+
+function submitExam() {
+        // Perform any final actions before submitting the exam form
+    document.forms['quizForm'].submit();
+}
+
+
+/*var selectedOptions = {};
+
+function saveAndNext() {
+    var currentQuestion = document.querySelector('.question-div:visible');
+    var questionNumber = currentQuestion.id.substring(8); // Extract question number from the ID
+    var selectedOption = currentQuestion.querySelector('input[name="option' + questionNumber + '"]:checked').value;
+    selectedOptions[questionNumber] = selectedOption;
+    
+    // Hide the current question
+    currentQuestion.style.display = 'none';
+    
+    // Show the next question or submit button
+    var nextQuestionNumber = parseInt(questionNumber) + 1;
+    var nextQuestion = document.getElementById('question' + nextQuestionNumber);
+    if (nextQuestion) {
+        nextQuestion.style.display = 'block';
+    } else {
+        document.getElementById('submitButton').style.display = 'block';
+    }
+    
+    // Update the hidden input field with the selected options
+    document.getElementById('selectedOptions').value = JSON.stringify(selectedOptions);
+}
+
+// Submit the form when the submit button is clicked
+document.getElementById('submitButton').addEventListener('click', function() {
+    document.getElementById('quizForm').submit();
+});*/
+
+/*
+var currentQuestion = 1;
+var totalQuestions = new QuestionsDao.count();
+
+function saveAndNext() {
+        // Save the selected option for the current question (you can add your logic here)
+        // Hide the current question
+	document.getElementById('question' + currentQuestion).style.display = 'none';
+
+	console.log(document.getElementsByName('option'));
+
+        // Move to the next question
+    currentQuestion++;
+
+        // If all questions are answered, show the submit button
+    if (currentQuestion > totalQuestions) {
+            document.querySelector('.submit-button').style.display = 'block';
+            document.querySelector('.save-next-button').style.display = 'true'; // Hide the "Save & Next" button
+        } else {
+            // Show the next question
+            document.getElementById('question' + currentQuestion).style.display = 'block';
+        }
+       
+    }
+
+*/
+
+
+
+
+    
+    
+    
+/*     $(document).ready(function() {
+        // Add a change event listener to all radio buttons with the name "option"
+        $("input[name='option']").change(function() {
+            // Get the value of the selected radio button
+            var selectedOption = $("input[name='option']:checked").val();
+            
+            // Update the value of the hidden input field
+            $("input[name='selectedOption']").val(selectedOption);
+        });
+    });*/
+
+    
+    
+    
+    function submitQuiz() {
+            const form = document.getElementById('quizForm');
+            const formData = new FormData(form);
+            
+            for (const pair of formData.entries()) {
+                console.log(`Question: ${pair[0]}, Selected Option: ${pair[1]}`);
+            }
+        }

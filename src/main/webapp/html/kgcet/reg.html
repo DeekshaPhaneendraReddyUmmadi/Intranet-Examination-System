@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+    <link rel="stylesheet" href="../../css/kgcet/reg.css">
+</head>
+<body>
+
+    <form  action="<%= request.getContextPath() %>/saveStudent" method="post" enctype="multipart/form-data">
+        <img src="../../images/kgcet/logo.jpeg" alt="Logo" class="logo">
+        <h2>Student Registration</h2>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" >
+
+        <label for="roll">Intermediate Roll No:</label>
+        <input type="text" id="roll" name="roll" >
+
+        <label for="fatherName">Father's Name:</label>
+        <input type="text" id="fatherName" name="fatherName" >
+
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" >
+
+        <label for="mobile">Mobile Number:</label>
+        <input type="tel" id="mobile" name="mobile" required>
+
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" >
+
+        <label for="district">District:</label>
+        <select id="district" name="district" required>
+            <option value="anantapur">Anantapur</option>
+            <option value="chittoor">Chittoor</option>
+            <option value="east-godavari">East Godavari</option>
+        </select>
+
+        
+
+        <label for="passport_size_photo">Upload Passport Size Photo:</label>
+        <input type="file" id="photo" name="passport_size_photo" accept="image/*" required>
+
+        <label for="hallticket_photo">Upload intermediate hallticket:</label>
+        <input type="file" id="hphoto" name="hallticket_photo" accept="image/*" required>
+
+        <button type="submit" name="register">Register Now</button>
+    </form>
+    <script src="../../js/kgcet/reg.js">
+        
+    </script>
+
+</body>
+</html>

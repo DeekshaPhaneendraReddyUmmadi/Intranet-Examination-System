@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+/* Table styles */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+/* Image styles */
+table img {
+    width: 150px;
+    height: 100px;
+}
+
+img .question{
+	width : 200px;
+	height: 150px;
+}
+
+.id,.correct{
+	text-align : center;
+}
