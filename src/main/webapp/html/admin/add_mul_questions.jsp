@@ -12,40 +12,53 @@
     <div class="uploadForm">
         <form action="<%= request.getContextPath()%>/multiImage" method="post" enctype="multipart/form-data">
             <h1 class="u_q">Upload Question</h1>
+            
+            
+            
             <div class="questionContainer">
+            
+            	<div class="subjectSelector">
+                    <!-- <label for="subject" class="subjectLabel">Subject: </label> -->
+                    <select name="subject" class="subjectDropdown">
+                        <option value="maths">Maths</option>
+                        <option value="physics">Physics</option>
+                        <option value="chemistry">Chemistry</option>
+                    </select>
+                </div>
+                
                 <!-- Input field for selecting an image -->
                 <div class="question">
                     <label class="questionLabel" for="image1">Question</label>
-                    <input type="file" name="image1" accept="image/*" onchange="showQuestionPreview(event)" id="image1">
+                    <input type="file" name="image1" accept="image/*" onchange="showQuestionPreview(event)" id="image1" required>
                 </div>
                 <!-- question preview container -->
                 <img id="question-preview" src="" style="display: none;">
                 <br>
                 <div class="options-container">
                     <div class="option">
-                        <input type="file" name="image2" id="option1" accept="image/*" onchange="previewImage(this, 'preview1')">
+                        <input type="file" name="image2" id="option1" accept="image/*" onchange="previewImage(this, 'preview1')" required>
                         <label for="option1">Option 1</label>
                         <img id="preview1">
                     </div>
                     <div class="option">
-                        <input type="file" name="image3" id="option2" accept="image/*" onchange="previewImage(this, 'preview2')">
+                        <input type="file" name="image3" id="option2" accept="image/*" onchange="previewImage(this, 'preview2')" required>
                         <label for="option2">Option 2</label>
                         <img id="preview2">
                     </div>
                     <div class="option">
-                        <input type="file" name="image4" id="option3" accept="image/*" onchange="previewImage(this, 'preview3')">
+                        <input type="file" name="image4" id="option3" accept="image/*" onchange="previewImage(this, 'preview3')" required>
                         <label for="option3">Option 3</label>
                         <img id="preview3">
                     </div>
                     <div class="option">
-                        <input type="file" name="image5" id="option4" accept="image/*" onchange="previewImage(this, 'preview4')">
+                        <input type="file" name="image5" id="option4" accept="image/*" onchange="previewImage(this, 'preview4')" required>
                         <label for="option4">Option 4</label>
                         <img id="preview4">
                     </div>
                 </div>
                 <br><br><br>
                 <label for="correct_option">Correct Option :</label>
-                <input type="number" id="correct_option" name="correct_option"><br><br>
+                <input type="number" id="correct_option" name="correct_option" required><br><br>
                 <div class="button-container">
                     <input class="uploadButton" type="submit" name="upload" value="Upload">
                     <input class="uploadAndNewButton" type="submit" name="upload" value="Upload & New">
@@ -81,6 +94,13 @@
             preview.style.display = 'none';
         }
     }
+    
+ // Add event listener to the dropdown
+    document.querySelector('.subjectDropdown').addEventListener('change', function() {
+        // Submit the form when the dropdown value changes
+        document.getElementById('subjectForm').submit();
+    });
+
     </script>
 </body>
 

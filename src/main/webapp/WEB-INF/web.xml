@@ -1,23 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-  <servlet>
-    <description></description>
-    <display-name>LoginStudent</display-name>
-    <servlet-name>LoginStudent</servlet-name>
-    <servlet-class>in.ac.ksrmce.kgcetbackend.LoginStudent</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>LoginStudent</servlet-name>
-    <url-pattern>/LoginStudent</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>StartExam</display-name>
-    <servlet-name>StartExam</servlet-name>
-    <servlet-class>in.ac.ksrmce.exam.StartExam</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>StartExam</servlet-name>
-    <url-pattern>/StartExam</url-pattern>
-  </servlet-mapping>
+ 
 </web-app>

@@ -58,21 +58,29 @@ public class MultipleUpload extends HttpServlet {
         String option_three = imgNames[3];
         String option_four = imgNames[4];
         int correct_option = Integer.parseInt(request.getParameter("correct_option"));
+        String subject = request.getParameter("subject");
         
-        QuestionsEntity questions = new QuestionsEntity(question,option_one,option_two,option_three,option_four,correct_option);
+        System.out.println("subject : " + subject);
+        QuestionsEntity questions = new QuestionsEntity(question,option_one,option_two,option_three,option_four,correct_option,subject);
         QuestionsDao dao = new QuestionsDao();
-        System.out.println(request.getContextPath()+"/html/admin/add_mul_questions.jsp");
+//        System.out.println(request.getContextPath()+"/html/admin/add_mul_questions.jsp");
         
-        System.out.println(action);
-        if ("Upload".equals(action)) {
-            if(dao.save(questions)) {
-	        	response.getWriter().println("Images uploaded successfully!");
-	        }else {
-	        	response.getWriter().println("Images uploaded successfully! but not on database !!");
-	        }
-        } else if("Upload & New".equals(action)) {
-        	response.sendRedirect(request.getContextPath()+"/html/admin/add_mul_questions.jsp");
+        
+        if(dao.save(questions)) {
+        	response.getWriter().println("Images uploaded successfully!");
+        }else {
+        	response.getWriter().println("Images uploaded successfully! but not on database !!");
         }
+//        System.out.println(action);
+//        if ("Upload".equals(action)) {
+//            if(dao.save(questions)) {
+//	        	response.getWriter().println("Images uploaded successfully!");
+//	        }else {
+//	        	response.getWriter().println("Images uploaded successfully! but not on database !!");
+//	        }
+//        } else if("Upload & New".equals(action)) {
+//        	response.sendRedirect(request.getContextPath()+"/html/admin/add_mul_questions.jsp");
+//        }
         
         
     }

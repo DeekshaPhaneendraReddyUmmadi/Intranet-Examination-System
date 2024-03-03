@@ -74,7 +74,7 @@
     }
     
     .top>.left>.right{
-    	font-size: 24px;
+    	font-size: 30px;
     }
 
     .top>.left>.information {
@@ -84,6 +84,16 @@
       background-color: white;
       border: 2px solid rgb(196, 187, 187);
       padding-left: 23px;
+    }
+    
+
+    
+    .sub-btn{
+    	background-color: #007BFF;
+    	color:white;
+    	padding:3px 5px;
+    	border:1px solid black;
+    	border-radius: 2px;
     }
 
     .subject>div {
@@ -241,5 +251,87 @@
     }
 
 
+
+
+/* color buttons */
+
+
+.notVisited {
+    text-decoration: none;
+}
+
+.notVisitedButton {
+    width: 50px;
+    height: 50px;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: rgb(250, 248, 248);
+    margin: 8px;
+}
+
+.buttonText {
+    font-size: 22px;
+    color: black;
+}
+
+
+
+.answered {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    margin-bottom: -15px;
+}
+
+.answered:nth-child(1) {
+    border-bottom: 20px solid #53cb35;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+}
+
+.answered:nth-child(2) {
+    height: 25px;
+    background-color: #53cb35;
+}
+
+.answered:nth-child(3) {
+    font-size: 24px;
+    color: white;
+    text-align: center;
+    transform: translate(-0%, -130%);
+}
  
- 
+/* .ans{
+	text-decoration:none;
+	margin-left:10px;	 
+	border:1px solid black;
+	padding:15px 20px; 
+}
+
+.ans>span{
+
+	background-image: url("project/images/exam/answered.jpg");
+} */
+
+
+.ans {
+    text-decoration: none;
+    margin-left: 10px;
+    /* margin:15px 19px 14px 19px;  */
+    border: 1px solid black;
+    padding: 15px 19px 14px 19px;
+    /* Set background image */
+    background-image: url("project/images/exam/answered.jpg");
+    /* Set background image size and position */
+    background-size: cover; /* or contain, depending on your needs */
+    background-position: center; /* or any other position */
+    /* Ensure the text is not displayed */
+    color: transparent;
+    border-radius: 4px;
+}
+
+.ans span {
+    /* Ensure the text is not displayed */
+    color: black;
+    font-size:24px;
+}

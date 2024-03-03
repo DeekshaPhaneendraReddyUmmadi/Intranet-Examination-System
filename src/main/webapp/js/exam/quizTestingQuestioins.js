@@ -57,6 +57,11 @@ document.getElementById('actualSaveAndNext').addEventListener('click', function(
 });
 
 
+document.getElementById('actualMarkForReview').addEventListener('click', function() {
+    document.getElementById('markForReview').click();
+});
+
+
 function clearResponse() {
     document.getElementById("quizForm").reset();
 }

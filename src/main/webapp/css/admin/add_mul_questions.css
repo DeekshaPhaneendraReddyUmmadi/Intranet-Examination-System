@@ -159,6 +159,29 @@ h1 {
 
 
 
+.subjectDropdown{
+    font-size: 2rem;
+    color: #01C7CC;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    padding: 5px 20px;
+    border-radius: 10px;
+    transition: all 0.3s;
+    text-align: center; 
+}
+
+.subjectDropdown:focus {  
+  outline: none; /* Remove outline */
+  border: 1px solid #ddd;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+
+}
+.subjectDropdown option {
+  text-align: center; /* Align text to center */
+}
+
+
 
 #correct_option {
     width: 40px;

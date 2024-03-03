@@ -47,16 +47,31 @@
               Section
             </div>
             <div class="right" >
-                Time Left : <span id="timer" >0</span> minutes
+                Time Left : <span id="timer" style="font-size:24px;">0</span> minutes
             </div>
           </div>
-          <div class="information subject">
-            <div>
-              <div> <a href="#">Maths</a> <a class="instruction-btn i" style="color: white;" href="#">I</a></div>
-              <div> <a href="#">Physics</a> <a class="instruction-btn i" style="color: white;" href="#">I</a></div>
-              <div style="border-right: 3px solid gray"> <a href="#">Chemistry</a> <a class="instruction-btn i" style="color: white;" href="#">I</a></div>
-            </div>
-        </div>
+         <!--  <div class="information subject">
+		    <div class="subs">
+		        <form action="/yourServletURL" method="GET" >
+		            <div class="sub"> <button type="submit" name="subject" value="Maths">Maths</button> <a class="instruction-btn i" style="color: white;" href="#">I</a></div>
+		            <div class="sub"> <button type="submit" name="subject" value="Physics">Physics</button> <a class="instruction-btn i" style="color: white;" href="#">I</a></div>
+		            <div class="sub" style="border-right: 3px solid gray"> <button type="submit" name="subject" value="Chemistry">Chemistry</button> <a class="instruction-btn i" style="color: white;" href="#">I</a></div>
+		        </form>
+		    </div>
+		  </div> -->
+		  
+		  
+		  <div class="information subject">
+		    <div class="button-container">
+		        <form action="${pageContext.request.contextPath}/examTestStart" method="GET">
+		            <button class="sub-btn" type="submit" name="subject" value="maths">Maths</button> 
+		            <button class="sub-btn" type="submit" name="subject" value="physics">Physics</button>
+		            <button class="sub-btn" type="submit" name="subject" value="chemistry">Chemistry</button>
+		        </form>
+	    	</div>
+</div>
+		  
+
           <div class="question-type information">
             Question Type : Multiple Choice Questions
           </div>
@@ -78,6 +93,7 @@
     int notAnswered = (Integer)request.getAttribute("notAnswered");
     int markForReview = (Integer)request.getAttribute("markForReview");
     int answeredMarkForReview = (Integer)request.getAttribute("answeredMarkForReview");
+    String sub = (String)request.getAttribute("sub");
 /* QuestionsEntity questions = (QuestionsEntity) request.getAttribute("question"); */
 /* QuestionsEntity currentQuestion = questions.get(currentQuestionIndex);  */
 %>
@@ -107,7 +123,7 @@
         	<img style="width:11%" src="${question.option_four}" alt="Option 4">
         </label><br>
         <button type="submit" id="saveAndNext" style="display: none;">Save & Next</button>
-	    
+	    <button type="submit" id="markForReview" name="markforreview" value="markForReview" style="display:none;">Mark for Review</button>
     </form>
 
 </div>
@@ -171,7 +187,7 @@
               <a  style="text-decoration: none;">
                 <div  style="display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border: 1px solid black; border-radius: 4px; background-color: rgb(250, 248, 248);">
                   <div  style="text-align: center; font-size: 24px;">
-                    <p ><% out.print(QuestionsDao.count() - (currentQuestionIndex +1)); %></p>
+                    <p ><% out.print(QuestionsDao.countofsubject(sub) - (currentQuestionIndex +1)); %></p>
                   </div>
                 </div>
               </a><p>Not Visited</p>
@@ -203,7 +219,7 @@
             </div>
             </div>
 
-          <div class="bottom " style="overflow-y: auto; height: 220px; margin-top:0px; ">
+          <div class="bottom " style="overflow-y: auto; height: 215px; margin-top:-19px; ">
             
             <div class="coloring-btn" style="background-color: #bad3ed ; ">
            
@@ -215,7 +231,7 @@
 		qNum[i] = 0;
 	}
 	
-    for (int i = 1; i <= QuestionsDao.count(); i++) {
+    for (int i = 1; i <= QuestionsDao.countofsubject(sub); i++) {
         /* String questionId = "question" + i; */
         
 %>
@@ -240,8 +256,14 @@
     </button>
 </a>
 
-       
-             
+<a href="${question.id}" class="notVisited">
+    <button class="notVisitedButton">
+        <span class="buttonText">0</span>
+    </button>
+</a>
+
+
+        
              
           </div>
 
@@ -255,7 +277,7 @@
       <div class="bottom">
       	<div class="navigation left">
             <div class="btm-btn">
-                <button type="button" class="btm-btn-left" >Mark for Review & Next</button>
+                <button type="button" id="actualMarkForReview" class="btm-btn-left" >Mark for Review & Next</button>
                 <button type="reset" class="btm-btn-left" onclick="clearResponse()">Clear Response</button>
             </div>
             <button type="button" id="actualSaveAndNext" class="save-next-button btm-btn-right" onclick="saveAndNext()">Save & Next</button>

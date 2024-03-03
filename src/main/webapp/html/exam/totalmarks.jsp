@@ -10,5 +10,13 @@
 
 <%= request.getAttribute("count") %>
 
+<% 
+
+out.println(request.getAttribute("answered"));
+out.println(request.getAttribute("notAnswered"));
+
+
+%>
+
 </body>
 </html>

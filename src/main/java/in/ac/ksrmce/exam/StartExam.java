@@ -59,25 +59,77 @@ public class StartExam extends HttpServlet {
     
     static int answered = 0;
     static int notAnswered = 0;
+    static int notVisited = QuestionsDao.count()-1;	
     static int markForReview = 0;
     static int answeredMarkForReview = 0;
     static int totalMarks = 0;
     
-    static int totalQuestions = QuestionsDao.count()+1;
+    static boolean oneTime = true;
+    
+//    static int check = answered;
+    
+    static String sub = "maths";
+
+
+	static int totalQuestions = QuestionsDao.count()+1;
     String[] selectedOptions = new String[totalQuestions];
     static boolean over = false;
+    
+      
+     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<QuestionsEntity> questions = QuestionsDao.randomquesions();
-//        int totalQuestions = questions.size();
-//        String[] selectedOptions = new String[totalQuestions]; // Array to store selected options
-        int currentQuestionIndex = 0; // Keep track of the current question index
-        
-        // Check if there's a parameter indicating the current question index
+    	
+    	int currentQuestionIndex = 0;
+    	
+    	
+    	// Check if there's a parameter indicating the current question index
         String questionIndexParam = request.getParameter("questionIndex");
         if (questionIndexParam != null && !questionIndexParam.isEmpty()) {
             // If the parameter is present, parse it to get the current question index
             currentQuestionIndex = Integer.parseInt(questionIndexParam);
         }
+    	
+    	
+//    	sub = request.getParameter("subject");
+    	
+    	
+//    	if(sub == null) {
+//    		sub="maths";
+//    	}
+    	if( QuestionsDao.countofsubject("maths") == currentQuestionIndex) {
+    		sub = "physics";
+    		currentQuestionIndex = 0 ;
+    	}
+//    	if( QuestionsDao.countofsubject("physics") == currentQuestionIndex ) {
+//    		sub = "chemistry";
+//    		currentQuestionIndex = 0 ;
+//    	}
+    	
+    	System.out.println("currentQuestionsINdex : " + currentQuestionIndex);
+    	System.out.println("maths over : "+ (QuestionsDao.countofsubject("maths") == currentQuestionIndex));
+    	System.out.println("subject : " + sub);
+    	System.out.println(" maths : " + QuestionsDao.countofsubject("maths"));
+    	System.out.println(" physics : " + QuestionsDao.countofsubject("physics"));
+    	System.out.println(" chemistry : " + QuestionsDao.countofsubject("chemistry"));
+    	System.out.println("  m + p  : " + (QuestionsDao.countofsubject("maths") + QuestionsDao.countofsubject("physics")));
+    	System.out.println("  m + p + c  : " + (QuestionsDao.countofsubject("maths") + QuestionsDao.countofsubject("physics") + QuestionsDao.countofsubject("chemistry")));
+    	
+    	
+//    	List<QuestionsEntity> questions = QuestionsDao.randomquesions(sub);
+        List<QuestionsEntity> questions = QuestionsDao.randomquesionswithsubject(sub);
+        
+//        System.out.println("subject : "+sub);
+        
+//        int totalQuestions = questions.size();
+//        String[] selectedOptions = new String[totalQuestions]; // Array to store selected options
+//        int currentQuestionIndex = 0; // Keep track of the current question index
+        
+//        // Check if there's a parameter indicating the current question index
+//        String questionIndexParam = request.getParameter("questionIndex");
+//        if (questionIndexParam != null && !questionIndexParam.isEmpty()) {
+//            // If the parameter is present, parse it to get the current question index
+//            currentQuestionIndex = Integer.parseInt(questionIndexParam);
+//        }
         
         // Set the current question in the request scope
 //        QuestionsEntity currentQuestion = questions.get(currentQuestionIndex);
@@ -92,10 +144,12 @@ public class StartExam extends HttpServlet {
 //        request.setAttribute("question", currentQuestion);
         
         
+       
         
      // Assuming 'questions' is your list
-        if (currentQuestionIndex >= 0 && currentQuestionIndex < questions.size()) {
+        if (currentQuestionIndex >= 0 && currentQuestionIndex < QuestionsDao.count()) {
         	QuestionsEntity currentQuestion = questions.get(currentQuestionIndex);
+//        	QuestionsEntity currentQuestion = questions.get(temp);
             
             String imagePath = request.getContextPath() + "/images/questions/";
             currentQuestion.setId(currentQuestion.getId());
@@ -109,8 +163,17 @@ public class StartExam extends HttpServlet {
             over = true;
         }
 
+        
+        
+    	
+    	
+    	
+        
+        
+        
+        
        
-        System.out.println(questions.size());
+//        System.out.println(questions.size());
         
      // Forward the request to the JSP page along with the current question index as a request parameter
         request.setAttribute("currentQuestionIndex", currentQuestionIndex);
@@ -123,26 +186,55 @@ public class StartExam extends HttpServlet {
         selectedOptions[currentQuestionIndex] = selectedOption;
         
         // Debugging output
-        System.out.println("Current Question Index: " + currentQuestionIndex);
-        System.out.println("Selected Option: " + selectedOption);
+//        System.out.println("Current Question Index: " + currentQuestionIndex);
+//        System.out.println("Selected Option: " + selectedOption);
         
         
-        for (int i = 0; i < selectedOptions.length; i++) {
-            System.out.println("Selected option for question " + (i + 1) + ": " + selectedOptions[i]);
-        }
+//        for (int i = 0; i < selectedOptions.length; i++) {
+//            System.out.println("Selected option for question " + (i) + ": " + selectedOptions[i]);
+//        }
 
+//        System.out.println("markForReview : "+ request.getParameter("markForReview") );
+//        System.out.println("not visited :  "+ notVisited);
         
-        // Numbering
-        if(selectedOption != null) {
+        
+        // Numbering			
+        
+        // && (notAnswered + notVisited) == QuestionsDao.count()-currentQuestionIndex
+        
+        
+        if(selectedOption != null && selectedOptions[currentQuestionIndex+1] == null) {
         	answered++;
-        }else if(selectedOption ==null) {
+        	notVisited--;
+        }else if(selectedOption == null && currentQuestionIndex!=0) {
         	notAnswered++;
+        	notVisited--;
         }
+        
+        
+        if(oneTime) {
+        	notAnswered++;
+        	oneTime = false;
+        }else if(currentQuestionIndex == QuestionsDao.countofsubject(sub)) {
+        	notAnswered--;
+        	oneTime=true;
+        }
+        
+        
+//        System.out.println("A + NA + NV  :" + (answered+notAnswered + notVisited) +"  C- Ind "+ (QuestionsDao.count()-currentQuestionIndex));
+//        System.out.println(" value "+ (notVisited+answered) );
+        
+//        System.out.print("[   NA : "+notAnswered);
+//        System.out.print("   nv : "+ notVisited + "  ]\n");
+//        System.out.println("a : "+answered);
+//        System.out.println("current a index : "+ currentQuestionIndex);
+//        System.out.println("");
         
         request.setAttribute("answered", answered);
         request.setAttribute("notAnswered", notAnswered);
         request.setAttribute("markForReview", markForReview);
         request.setAttribute("answeredMarkForReview", answeredMarkForReview);
+        request.setAttribute("sub", sub);
         
         
 //        int totalMarks = 0;
@@ -164,7 +256,8 @@ public class StartExam extends HttpServlet {
             markForReview = 0;
             answeredMarkForReview = 0;
 //        	request.setAttribute("count", totalMarks);
-        	request.getRequestDispatcher("/html/exam/totalmarks.jsp").forward(request, response);
+            over=false;
+            request.getRequestDispatcher("/html/exam/totalmarks.jsp").forward(request, response);
         }else {
         	request.getRequestDispatcher("/html/exam/quizTestingQuestioins.jsp").forward(request, response);        	
         }

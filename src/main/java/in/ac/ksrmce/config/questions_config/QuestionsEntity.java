@@ -9,13 +9,14 @@ public class QuestionsEntity {
 	private String option_three;
 	private String option_four;
 	private int correct_option;
+	private String subject;
 	
 	public QuestionsEntity() {
 		super();
 	}
 	
 	public QuestionsEntity(int id, String question, String option_one, String option_two, String option_three,
-			String option_four, int correct_option) {
+			String option_four, int correct_option, String subject) {
 		super();
 		this.id = id;
 		this.question = question;
@@ -24,10 +25,11 @@ public class QuestionsEntity {
 		this.option_three = option_three;
 		this.option_four = option_four;
 		this.correct_option = correct_option;
+		this.subject = subject;
 	}
 
 	public QuestionsEntity(int id ,String question, String option_one, String option_two, String option_three,
-			String option_four) {
+			String option_four, String subject) {
 		super();
 		this.id = id;
 		this.question = question;
@@ -35,10 +37,11 @@ public class QuestionsEntity {
 		this.option_two = option_two;
 		this.option_three = option_three;
 		this.option_four = option_four;
+		this.subject = subject;
 	}
 
 	public QuestionsEntity(String question, String option_one, String option_two, String option_three,
-			String option_four, int correct_option) {
+			String option_four, int correct_option , String subject) {
 		super();
 		this.question = question;
 		this.option_one = option_one;
@@ -46,6 +49,7 @@ public class QuestionsEntity {
 		this.option_three = option_three;
 		this.option_four = option_four;
 		this.correct_option = correct_option;
+		this.subject = subject;
 	}
 	
 	public int getId() {
@@ -89,6 +93,15 @@ public class QuestionsEntity {
 	}
 	public void setCorrect_option(int correct_option) {
 		this.correct_option = correct_option;
+	}
+	
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
 
 	@Override
