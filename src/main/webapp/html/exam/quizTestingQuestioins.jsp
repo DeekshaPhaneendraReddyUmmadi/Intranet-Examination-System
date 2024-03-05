@@ -222,14 +222,64 @@
           <div class="bottom " style="overflow-y: auto; height: 215px; margin-top:-19px; ">
             
             <div class="coloring-btn" style="background-color: #bad3ed ; ">
+            
+            
+            
+            <!-- https://travishorn.com/buttons-with-custom-shapes-cabdcde7dfd1 -->
+            
+            
+            
+           <%--  <a href="#" style="text-decoration: none;">
+                	<img style="margin:10px;" src="<%= request.getContextPath() %>/images/exam/answered.jpg"  alt="I'm a link.">
+                
+              </a> --%>
+              
+              
+              
            
+<%-- 		<a href="#" style="text-decoration: none;">
+                <div style="position: relative; display: inline-block; width: 50px; margin : 0px 10px;">
+                  <div style="font-size: 24px; color: white; text-align: center;"><%= answered  %></div>
+                  <div style="border-bottom: 20px solid #53cb35; border-left: 17px solid transparent; border-right: 17px solid transparent;  transform: translate(-0%, -150%); "></div>
+                  <div style="height: 25px; background-color: #53cb35; transform: translate(-0%, -120%);"></div>
+                </div>
+              </a>
 
+<a href="#" style="text-decoration: none; position: relative;">
+    <div style="position: relative; display: inline-block; width: 50px; margin : 0px 10px;">
+        <div style="font-size: 24px; color: white; text-align: center; z-index: 1;"><%= answered %></div>
+        <div style="border-bottom: 20px solid #53cb35; border-left: 17px solid transparent; border-right: 17px solid transparent; transform: translate(-0%, -150%);"></div>
+        <div style="height: 25px; background-color: #53cb35; transform: translate(-0%, -120%);"></div>
+    </div>
+</a> --%>
+
+<!-- <a href="#" style="text-decoration: none; position: relative;">
+	<button style="border:none; padding:20px">1</button>
+</a> -->
+
+<a href="#" style="text-decoration: none; display: inline-block;  border: 1px solid red; margin-top: 10px;">
+  <svg width="50" height="45">
+    <rect x="0" y="20" width="50" height="25" fill="#53cb35" />
+    <!-- Trapezoid path -->
+    <path d="M 17 3   
+           L 33 3
+           L 50 20  
+           L 0 20    
+           Z"
+          fill="#53cb35"/>
+        
+  <text x="25px"
+                y="30px"
+                fill="#FFFFFF"
+                text-anchor="middle"
+                alignment-baseline="middle"
+                font-size="22px"> 
+                2
+            </text> 
+  </svg>
+</a>
 
 <%
-	int[] qNum = new int[QuestionsDao.count()];
-	for(int i:qNum){
-		qNum[i] = 0;
-	}
 	
     for (int i = 1; i <= QuestionsDao.countofsubject(sub); i++) {
         /* String questionId = "question" + i; */
@@ -243,14 +293,99 @@
             </div>
         </div>
     </a>
+
     
+    
+	<!-- <a href="#" style="text-decoration: none; display: inline-block;  border: 1px solid red;">
+	  <svg width="50" height="45">
+	    Trapezoid path
+	    <path d="M 17 3   
+	           L 33 3
+	           L 50 20  
+	           L 0 20    
+	           Z"
+	          fill="#53cb35"/>
+	    <rect x="0" y="20" width="50" height="25" fill="#53cb35" />
+	        
+	  <text x="25px"
+	                y="30px"
+	                fill="#FFFFFF"
+	                text-anchor="middle"
+	                alignment-baseline="middle"
+	                font-size="22px"> 
+	                2
+	            </text> 
+	  </svg>
+	</a> -->
+	
     
     
 <%
     }
 %>
        		
-<a href="${question.id}" style="text-decoration: none;">
+
+			  <a  href="#" style="text-decoration: none; display: inline-block; position: relative; none; margin:10px 8px;">
+                <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border: 1px solid black; border-radius: 50%; background-color: rgba(122, 32, 186, 0.86);">
+                  <div  style="text-align: center; font-size: 24px; color: white;">
+                    <p><%= answeredMarkForReview  %></p>
+                  </div>
+                  <img src="<%= request.getContextPath() %>/images/exam/text.png" alt="" style="position: absolute; bottom: 0; right: 0; width: 18px; height: auto; border-radius: 50%;">
+                </div>
+              </a>       		
+			  <a  href="#" style="text-decoration: none; display: inline-block; position: relative; none; margin:10px 8px;">
+                <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border: 1px solid black; border-radius: 50%; background-color: rgba(122, 32, 186, 0.86);">
+                  <div  style="text-align: center; font-size: 24px; color: white;">
+                    <p><%= answeredMarkForReview  %></p>
+                  </div>
+                  <img src="<%= request.getContextPath() %>/images/exam/text.png" alt="" style="position: absolute; bottom: 0; right: 0; width: 18px; height: auto; border-radius: 50%;">
+                </div>
+              </a>       		
+			  <a  href="#" style="text-decoration: none; display: inline-block; position: relative; none; margin:10px 8px;">
+                <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border: 1px solid black; border-radius: 50%; background-color: rgba(122, 32, 186, 0.86);">
+                  <div  style="text-align: center; font-size: 24px; color: white;">
+                    <p><%= answeredMarkForReview  %></p>
+                  </div>
+                  <img src="<%= request.getContextPath() %>/images/exam/text.png" alt="" style="position: absolute; bottom: 0; right: 0; width: 18px; height: auto; border-radius: 50%;">
+                </div>
+              </a>
+              
+                
+			  <a  href="#" style="text-decoration: none; display: inline-block; position: relative; none; margin:10px 8px;">
+                <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border: 1px solid black; border-radius: 50%; background-color: rgba(122, 32, 186, 0.86);">
+                  <div  style="text-align: center; font-size: 24px; color: white;">
+                    <p><%= answeredMarkForReview  %></p>
+                  </div>
+                </div>
+              </a>  
+			  <a  href="#" style="text-decoration: none; display: inline-block; position: relative; none; margin:10px 8px;">
+                <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border: 1px solid black; border-radius: 50%; background-color: rgba(122, 32, 186, 0.86);">
+                  <div  style="text-align: center; font-size: 24px; color: white;">
+                    <p><%= answeredMarkForReview  %></p>
+                  </div>
+                </div>
+              </a>  
+			  <a  href="#" style="text-decoration: none; display: inline-block; position: relative; none; margin:10px 8px;">
+                <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border: 1px solid black; border-radius: 50%; background-color: rgba(122, 32, 186, 0.86);">
+                  <div  style="text-align: center; font-size: 24px; color: white;">
+                    <p><%= answeredMarkForReview  %></p>
+                  </div>
+                </div>
+              </a>  
+			  <a  href="#" style="text-decoration: none; display: inline-block; position: relative; none; margin:10px 8px;">
+                <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border: 1px solid black; border-radius: 50%; background-color: rgba(122, 32, 186, 0.86);">
+                  <div  style="text-align: center; font-size: 24px; color: white;">
+                    <p><%= answeredMarkForReview  %></p>
+                  </div>
+                </div>
+              </a>  
+			 
+
+               		
+                   		
+
+
+<%-- <a href="${question.id}" style="text-decoration: none;">
     <button style="width: 50px; height: 50px; border: 1px solid black; border-radius: 4px; background-color: rgb(250, 248, 248); margin: 8px;">
         <span style="font-size: 22px; color: black;">0</span>
     </button>
@@ -260,7 +395,7 @@
     <button class="notVisitedButton">
         <span class="buttonText">0</span>
     </button>
-</a>
+</a> --%>
 
 
         

@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import in.ac.ksrmce.config.student_config.StudentDao;
@@ -73,6 +74,26 @@ public class QuestionsDao {
 
 		return listquestions;
 	}
+	public static List<QuestionsEntity> listquestionswithsubjects(String sub){
+		List<QuestionsEntity> listquestions = new ArrayList<QuestionsEntity>();
+		
+		try {
+			Connection con=QuestionsDao.getConnection();
+			PreparedStatement ps=con.prepareStatement("select * from questions where subject = ?");
+			ps.setString(1, sub);
+			ResultSet rs=ps.executeQuery();
+			
+			while(rs.next()) {
+				listquestions.add(new QuestionsEntity(rs.getInt("id"),rs.getString("question"),rs.getString("option_one"),rs.getString("option_two"),rs.getString("option_three"),rs.getString("option_four"),rs.getInt("correct_option"),rs.getString("subject")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return listquestions;
+	}
 	
 	
 	public static int count(){
@@ -135,6 +156,31 @@ public class QuestionsDao {
 		
 		return randomquesions;
 	}
+	
+	public static List<Integer> genratingRandomNumbers(String sub) {
+		List<QuestionsEntity> questions = QuestionsDao.listquestionswithsubjects(sub);
+		List<Integer> sequence = new ArrayList<>();
+        for(QuestionsEntity q : questions) {
+        	int num = q.getId();
+        	sequence.add(num);
+        }
+        Collections.shuffle(sequence);
+        
+        try{
+			Connection con=QuestionsDao.getConnection();
+            String sql = "INSERT INTO marks(random_questions_numbers) VALUES (?)";
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setString(1, sequence.toString());
+            statement.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return sequence;
+	}
+	
 	public static List<QuestionsEntity> randomquesionswithsubject(String sub){
 		List<QuestionsEntity> randomquesions = new ArrayList<QuestionsEntity>();
 		try {
