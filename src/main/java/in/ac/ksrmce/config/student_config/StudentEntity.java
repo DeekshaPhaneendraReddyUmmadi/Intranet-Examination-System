@@ -11,47 +11,92 @@ public class StudentEntity {
     private String gender;
     private String dob;
     private String district;
-    private String passport_size_photo;
-    private String hallticket_photo;
+    private String photo;
+    private String signature;	
+    private String referenceNumber;
+    private String hall_ticket_number;
 
     
     public StudentEntity() {
     }
 
-    
-    
-    public StudentEntity(Long id, String name, String roll, String fatherName, String email, String mobile,
-            String gender, String dob, String district, String passport_size_photo, String hallticket_photo) {
-        this.id = id;
-        this.name = name;
-        this.roll = roll;
-        this.fatherName = fatherName;
-        this.email = email;
-        this.mobile = mobile;
-        this.gender = gender;
-        this.dob = dob;
-        this.district = district;
-        this.passport_size_photo = passport_size_photo;
-        this.hallticket_photo = hallticket_photo;
-    }
+
+	public StudentEntity(Long id, String name, String roll, String fatherName, String email, String mobile,
+			String gender, String dob, String district, String photo, String signature, String referenceNumber,
+			String hall_ticket_number) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.roll = roll;
+		this.fatherName = fatherName;
+		this.email = email;
+		this.mobile = mobile;
+		this.gender = gender;
+		this.dob = dob;
+		this.district = district;
+		this.photo = photo;
+		this.signature = signature;
+		this.referenceNumber = referenceNumber;
+		this.hall_ticket_number = hall_ticket_number;
+	}
 
 
 
-    public StudentEntity(String name, String roll, String fatherName, String email, String mobile, String gender, String dob,
-            String district, String passport_size_photo, String hallticket_photo) {
-        this.name = name;
-        this.roll = roll;
-        this.fatherName = fatherName;
-        this.email = email;
-        this.mobile = mobile;
-        this.gender = gender;
-        this.dob = dob;
-        this.district = district;
-        this.passport_size_photo = passport_size_photo;
-        this.hallticket_photo = hallticket_photo;
-    }
+	public StudentEntity(Long id, String name, String roll, String fatherName, String email, String mobile,
+			String gender, String dob, String district, String photo, String signature, String referenceNumber) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.roll = roll;
+		this.fatherName = fatherName;
+		this.email = email;
+		this.mobile = mobile;
+		this.gender = gender;
+		this.dob = dob;
+		this.district = district;
+		this.photo = photo;
+		this.signature = signature;
+		this.referenceNumber = referenceNumber;
+	}
 
-    public Long getId() {
+
+	public StudentEntity(String name, String roll, String fatherName, String email, String mobile, String gender,
+			String dob, String district, String photo, String signature, String referenceNumber) {
+		super();
+		this.name = name;
+		this.roll = roll;
+		this.fatherName = fatherName;
+		this.email = email;
+		this.mobile = mobile;
+		this.gender = gender;
+		this.dob = dob;
+		this.district = district;
+		this.photo = photo;
+		this.signature = signature;
+		this.referenceNumber = referenceNumber;
+	}
+
+
+	public StudentEntity(String name, String roll, String fatherName, String email, String mobile, String gender,
+			String dob, String district, String photo, String signature, String referenceNumber,
+			String hall_ticket_number) {
+		super();
+		this.name = name;
+		this.roll = roll;
+		this.fatherName = fatherName;
+		this.email = email;
+		this.mobile = mobile;
+		this.gender = gender;
+		this.dob = dob;
+		this.district = district;
+		this.photo = photo;
+		this.signature = signature;
+		this.referenceNumber = referenceNumber;
+		this.hall_ticket_number = hall_ticket_number;
+	}
+
+
+	public Long getId() {
         return id;
     }
     public void setId(Long id) {
@@ -105,17 +150,43 @@ public class StudentEntity {
     public void setDistrict(String district) {
         this.district = district;
     }
-    public String getPassport_size_photo() {
-        return passport_size_photo;
+    public String getPhoto() {
+        return photo;
     }
-    public void setPassport_size_photo(String passport_size_photo) {
-        this.passport_size_photo = passport_size_photo;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
-    public String getHallticket_photo() {
-        return hallticket_photo;
+    public String getSignature() {
+        return signature;
     }
-    public void setHallticket_photo(String hallticket_photo) {
-        this.hallticket_photo = hallticket_photo;
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
+
+
+	public String getReferenceNumber() {
+		return referenceNumber;
+	}
+
+	public void setReferenceNumber(String referenceNumber) {
+		this.referenceNumber = referenceNumber;
+	}
+
+	public String getHall_ticket_number() {
+		return hall_ticket_number;
+	}
+
+	public void setHall_ticket_number(String hall_ticket_number) {
+		this.hall_ticket_number = hall_ticket_number;
+	}
+
+
+	@Override
+	public String toString() {
+		return "StudentEntity [id=" + id + ", name=" + name + ", roll=" + roll + ", fatherName=" + fatherName
+				+ ", email=" + email + ", mobile=" + mobile + ", gender=" + gender + ", dob=" + dob + ", district="
+				+ district + ", photo=" + photo + ", signature=" + signature + ", referenceNumber=" + referenceNumber
+				+ ", hall_ticket_number=" + hall_ticket_number + "]";
+	}
     
 }

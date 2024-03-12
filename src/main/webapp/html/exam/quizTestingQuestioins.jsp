@@ -64,350 +64,135 @@
 		  <div class="information subject">
 		    <div class="button-container">
 		        <form action="${pageContext.request.contextPath}/examTestStart" method="GET">
-		            <button class="sub-btn" type="submit" name="subject" value="maths">Maths</button> 
+			        <a href="${pageContext.request.contextPath}/examTestStart?subject=maths" style="text-decoration:none;" class="sub-btn">Maths</a> 
+			        <a href="${pageContext.request.contextPath}/examTestStart?subject=physics" style="text-decoration:none;" class="sub-btn">Physics</a> 
+			        <a href="${pageContext.request.contextPath}/examTestStart?subject=chemistry" style="text-decoration:none;" class="sub-btn">Chemistry</a> 
+		           <!--  <button class="sub-btn" type="submit" name="subject" value="maths">Maths</button> 
 		            <button class="sub-btn" type="submit" name="subject" value="physics">Physics</button>
-		            <button class="sub-btn" type="submit" name="subject" value="chemistry">Chemistry</button>
+		            <button class="sub-btn" type="submit" name="subject" value="chemistry">Chemistry</button> -->
 		        </form>
 	    	</div>
 </div>
 		  
+<% 
+String name = (String)session.getAttribute("userName");
+String photo = (String)session.getAttribute("photo");
 
+%>
           <div class="question-type information">
             Question Type : Multiple Choice Questions
           </div>
         </div>
-        <div class="right">
-          <img src="<%= request.getContextPath() %>/images/exam/myphoto.jpg" alt="student image" />
-          <div>Ummadi Deeksha Phaneendra Reddy</div>
-	        </div>
+	        <div class="right">
+	          <img src="<%= photo %>" alt="student image" />
+	          <div><%= name %></div>
+		    </div>
 	      </div>
 	      <div class="middle">
-        <div class="left">
-          <p style="padding-top: 20px"></p>
-          
-<!-- ________________________________________________________________________________________________________________________ -->
+        	<div class="left">
+          		<p style="padding-top: 20px"></p>
 
-<%
-    int currentQuestionIndex = (Integer)request.getAttribute("currentQuestionIndex");
-    int answered = (Integer)request.getAttribute("answered");
-    int notAnswered = (Integer)request.getAttribute("notAnswered");
-    int markForReview = (Integer)request.getAttribute("markForReview");
-    int answeredMarkForReview = (Integer)request.getAttribute("answeredMarkForReview");
-    String sub = (String)request.getAttribute("sub");
-/* QuestionsEntity questions = (QuestionsEntity) request.getAttribute("question"); */
-/* QuestionsEntity currentQuestion = questions.get(currentQuestionIndex);  */
-%>
-
-
-
-<div class="questions-dis">
-
-<h1>Question <%= currentQuestionIndex + 1 %></h1>
-    <form class="quizForm" action="${pageContext.request.contextPath}/examTestStart" method="post">
-    	<img style="width:50%" src="${question.question}" alt="Question <%= currentQuestionIndex + 1 %>">
-        <input type="hidden" name="questionIndex" value="<%= currentQuestionIndex + 1 %>">
-        <label>
-        	<input type="radio" name="option" value="1">
-        	<img style="width:11%" src="${question.option_one}" alt="Option 1">
-        </label><br>
-        <label>
-        	<input type="radio" name="option" value="2">
-        	<img style="width:11%" src="${question.option_two}" alt="Option 2">
-        </label><br>
-        <label>
-        	<input type="radio" name="option" value="3">
-        	<img style="width:11%" src="${question.option_three}" alt="Option 3">
-        </label><br>
-        <label>
-        	<input type="radio" name="option" value="4">
-        	<img style="width:11%" src="${question.option_four}" alt="Option 4">
-        </label><br>
-        <button type="submit" id="saveAndNext" style="display: none;">Save & Next</button>
-	    <button type="submit" id="markForReview" name="markforreview" value="markForReview" style="display:none;">Mark for Review</button>
-    </form>
-
-</div>
-    
-<%-- <form action="<%= request.getContextPath()%>/examTestStart" id="quizForm" method="post">
-    <fieldset class="question-div" id="question" >
-        <legend>Question</legend>
-        <img style="width:50%" src="${q.question}" alt="Question"><br>
-        <label>
-            <input type="radio" name="option" value="1">
-            <img style="width:11%" src="${q.option_one}" alt="Option 1">
-        </label><br>
-        <label>
-            <input type="radio" name="option" value="2">
-            <img style="width:11%" src="${question.option_two}" alt="Option 2">
-        </label><br>
-        <label>
-            <input type="radio" name="option" value="3">
-            <img style="width:11%" src="${question.option_three}" alt="Option 3">
-        </label><br>
-        <label>
-            <input type="radio" name="option" value="4">
-            <img style="width:11%" src="${question.option_four}" alt="Option 4">
-        </label>
-    </fieldset>
-    
-    <!-- Hidden field to store the question number -->
-    <input type="hidden" name="selectedOption" value="">
-    
-    <button type="submit">Submit</button>
-</form> --%>
-
-
-
-
-<!-- ________________________________________________________________________________________________________________________ -->          
-          
-        </div>
-
-        <div class="right">
-          <div class="top">
-
-            <div style="display: flex;">
-              <a href="#" style="text-decoration: none;">
-                <div style="position: relative; display: inline-block; width: 50px; margin-bottom: -15px;">
-                  <div style="border-bottom: 20px solid #53cb35; border-left: 15px solid transparent; border-right: 15px solid transparent;"></div>
-                  <div style="height: 25px; background-color: #53cb35;"></div>
-                  <div style="font-size: 24px; color: white; text-align: center; transform: translate(-0%, -130%);"><%= answered  %></div>
-                </div>
-              </a><p>Answered</p>
-              <a href="#" style="text-decoration: none;">
-                <div style="margin-top: 50px; position: relative; display: inline-block; margin-top: 60px;">
-                  <div style="color: white; text-align: center; position: absolute; top: -50px; width: 50px; height: 22px; background-color: #ff6347;"></div>
-                  <div style="margin-top: -28px; border-top: 20px solid #ff6347; border-left: 15px solid transparent; border-right: 15px solid transparent; height: 0; width: 21px;"></div>
-                  <div style="font-size: 24px; color: white; text-align: center; transform: translate(-0%, -130%);"><%= notAnswered  %></div>
-                </div>
-              </a><p>Not Answered</p>
-            </div>
-
-            <div style="display: flex;">
-              <a  style="text-decoration: none;">
-                <div  style="display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border: 1px solid black; border-radius: 4px; background-color: rgb(250, 248, 248);">
-                  <div  style="text-align: center; font-size: 24px;">
-                    <p ><% out.print(QuestionsDao.countofsubject(sub) - (currentQuestionIndex +1)); %></p>
-                  </div>
-                </div>
-              </a><p>Not Visited</p>
-              <a  style="text-decoration: none; margin:5px">
-                <div style="display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border: 1px solid black; border-radius: 50%; background-color: rgba(122, 32, 186, 0.86);">
-                  <div  style="text-align: center; font-size: 24px;">
-                    <p  style="color: white;"><%= markForReview  %></p>
-                  </div>
-                </div>
-              </a>
-              <div style="width: 80px;">Marked for Review</div>
-            </div>
-
-            <div style="display: flex;">
-              <a  href="#" style="text-decoration: none; display: inline-block; position: relative; none; margin:10px;">
-                <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border: 1px solid black; border-radius: 50%; background-color: rgba(122, 32, 186, 0.86);">
-                  <div  style="text-align: center; font-size: 24px; color: white;">
-                    <p><%= answeredMarkForReview  %></p>
-                  </div>
-                  <img src="<%= request.getContextPath() %>/images/exam/text.png" alt="" style="position: absolute; bottom: 0; right: 0; width: 18px; height: auto; border-radius: 50%;">
-                </div>
-              </a>
-              <p style="color: black;">Answered & Marked for Review (will be considered for evaluation)</p>
-            </div>
-
-            <div class="middle">Subject</div>
-            <div style="background-color: #bad3ed;">
-              choose a question
-            </div>
-            </div>
-
-          <div class="bottom " style="overflow-y: auto; height: 215px; margin-top:-19px; ">
-            
-            <div class="coloring-btn" style="background-color: #bad3ed ; ">
-            
-            
-            
-            <!-- https://travishorn.com/buttons-with-custom-shapes-cabdcde7dfd1 -->
-            
-            
-            
-           <%--  <a href="#" style="text-decoration: none;">
-                	<img style="margin:10px;" src="<%= request.getContextPath() %>/images/exam/answered.jpg"  alt="I'm a link.">
-                
-              </a> --%>
-              
-              
-              
-           
-<%-- 		<a href="#" style="text-decoration: none;">
-                <div style="position: relative; display: inline-block; width: 50px; margin : 0px 10px;">
-                  <div style="font-size: 24px; color: white; text-align: center;"><%= answered  %></div>
-                  <div style="border-bottom: 20px solid #53cb35; border-left: 17px solid transparent; border-right: 17px solid transparent;  transform: translate(-0%, -150%); "></div>
-                  <div style="height: 25px; background-color: #53cb35; transform: translate(-0%, -120%);"></div>
-                </div>
-              </a>
-
-<a href="#" style="text-decoration: none; position: relative;">
-    <div style="position: relative; display: inline-block; width: 50px; margin : 0px 10px;">
-        <div style="font-size: 24px; color: white; text-align: center; z-index: 1;"><%= answered %></div>
-        <div style="border-bottom: 20px solid #53cb35; border-left: 17px solid transparent; border-right: 17px solid transparent; transform: translate(-0%, -150%);"></div>
-        <div style="height: 25px; background-color: #53cb35; transform: translate(-0%, -120%);"></div>
-    </div>
-</a> --%>
-
-<!-- <a href="#" style="text-decoration: none; position: relative;">
-	<button style="border:none; padding:20px">1</button>
-</a> -->
-
-<a href="#" style="text-decoration: none; display: inline-block;  border: 1px solid red; margin-top: 10px;">
-  <svg width="50" height="45">
-    <rect x="0" y="20" width="50" height="25" fill="#53cb35" />
-    <!-- Trapezoid path -->
-    <path d="M 17 3   
-           L 33 3
-           L 50 20  
-           L 0 20    
-           Z"
-          fill="#53cb35"/>
-        
-  <text x="25px"
-                y="30px"
-                fill="#FFFFFF"
-                text-anchor="middle"
-                alignment-baseline="middle"
-                font-size="22px"> 
-                2
-            </text> 
-  </svg>
-</a>
-
-<%
+				<%
+				    int currentQuestionIndex = (Integer)request.getAttribute("currentQuestionIndex");
+				    int answered = (Integer)request.getAttribute("answered");
+				    int notAnswered = (Integer)request.getAttribute("notAnswered");
+				    int markForReview = (Integer)request.getAttribute("markForReview");
+				    int answeredMarkForReview = (Integer)request.getAttribute("answeredMarkForReview");
+				    String sub = (String)request.getAttribute("sub");
+				    
+				/* QuestionsEntity questions = (QuestionsEntity) request.getAttribute("question"); */
+				/* QuestionsEntity currentQuestion = questions.get(currentQuestionIndex);  */
+				
+					String path = request.getContextPath() + "/images/questions/";
+				%>
 	
-    for (int i = 1; i <= QuestionsDao.countofsubject(sub); i++) {
-        /* String questionId = "question" + i; */
-        
-%>
-
-	<a href="${question.id}"  style="text-decoration: none; ">
-		<div  style="display:inline-block; justify-content: center; align-items: center; width: 50px; height: 50px; border: 1px solid black; border-radius: 4px; background-color: rgb(250, 248, 248); margin:8px;">
-        	<div  style="text-align: center; align-items:center; font-size: 22px;">
-        		<p class="initial" style="margin-top:10px; color:black;"><%= i %></p>
-            </div>
-        </div>
-    </a>
-
-    
-    
-	<!-- <a href="#" style="text-decoration: none; display: inline-block;  border: 1px solid red;">
-	  <svg width="50" height="45">
-	    Trapezoid path
-	    <path d="M 17 3   
-	           L 33 3
-	           L 50 20  
-	           L 0 20    
-	           Z"
-	          fill="#53cb35"/>
-	    <rect x="0" y="20" width="50" height="25" fill="#53cb35" />
-	        
-	  <text x="25px"
-	                y="30px"
-	                fill="#FFFFFF"
-	                text-anchor="middle"
-	                alignment-baseline="middle"
-	                font-size="22px"> 
-	                2
-	            </text> 
-	  </svg>
-	</a> -->
 	
+	
+				<div class="questions-dis">
+				
+				<h1>Question <%= currentQuestionIndex + 1 %></h1>
+				    <form class="quizForm" id="quizForm" action="${pageContext.request.contextPath}/examTestStart" method="post">
+				    	<img style="width:50%" src="<%=path %>${question.question}" alt="Question <%= currentQuestionIndex + 1 %>">
+				        <input type="hidden" name="questionIndex" value="<%= currentQuestionIndex + 1 %>">
+				        <label>
+				        	<input type="radio" name="option" value="1">
+				        	<img style="width:11%" src="<%=path %>${question.option_one}" alt="Option 1">
+				        </label><br>
+				        <label>
+				        	<input type="radio" name="option" value="2">
+				        	<img style="width:11%" src="<%=path %>${question.option_two}" alt="Option 2">
+				        </label><br>
+				        <label>
+				        	<input type="radio" name="option" value="3">
+				        	<img style="width:11%" src="<%=path %>${question.option_three}" alt="Option 3">
+				        </label><br>
+				        <label>
+				        	<input type="radio" name="option" value="4">
+				        	<img style="width:11%" src="<%=path %>${question.option_four}" alt="Option 4">
+				        </label><br>
+				        <button type="submit" name="subject" value="sub" style="display:none;"></button>
+				        <button type="submit" id="saveAndNext" name="saveandnext" style="display: none;">Save & Next</button>
+					    <button type="submit" id="markForReview" name="markforreview" value="markForReview" style="display:none;">Mark for Review</button>
+				    </form>
+				
+				</div>
     
-    
-<%
-    }
-%>
-       		
+        	</div>
 
-			  <a  href="#" style="text-decoration: none; display: inline-block; position: relative; none; margin:10px 8px;">
-                <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border: 1px solid black; border-radius: 50%; background-color: rgba(122, 32, 186, 0.86);">
-                  <div  style="text-align: center; font-size: 24px; color: white;">
-                    <p><%= answeredMarkForReview  %></p>
-                  </div>
-                  <img src="<%= request.getContextPath() %>/images/exam/text.png" alt="" style="position: absolute; bottom: 0; right: 0; width: 18px; height: auto; border-radius: 50%;">
-                </div>
-              </a>       		
-			  <a  href="#" style="text-decoration: none; display: inline-block; position: relative; none; margin:10px 8px;">
-                <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border: 1px solid black; border-radius: 50%; background-color: rgba(122, 32, 186, 0.86);">
-                  <div  style="text-align: center; font-size: 24px; color: white;">
-                    <p><%= answeredMarkForReview  %></p>
-                  </div>
-                  <img src="<%= request.getContextPath() %>/images/exam/text.png" alt="" style="position: absolute; bottom: 0; right: 0; width: 18px; height: auto; border-radius: 50%;">
-                </div>
-              </a>       		
-			  <a  href="#" style="text-decoration: none; display: inline-block; position: relative; none; margin:10px 8px;">
-                <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border: 1px solid black; border-radius: 50%; background-color: rgba(122, 32, 186, 0.86);">
-                  <div  style="text-align: center; font-size: 24px; color: white;">
-                    <p><%= answeredMarkForReview  %></p>
-                  </div>
-                  <img src="<%= request.getContextPath() %>/images/exam/text.png" alt="" style="position: absolute; bottom: 0; right: 0; width: 18px; height: auto; border-radius: 50%;">
-                </div>
-              </a>
-              
-                
-			  <a  href="#" style="text-decoration: none; display: inline-block; position: relative; none; margin:10px 8px;">
-                <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border: 1px solid black; border-radius: 50%; background-color: rgba(122, 32, 186, 0.86);">
-                  <div  style="text-align: center; font-size: 24px; color: white;">
-                    <p><%= answeredMarkForReview  %></p>
-                  </div>
-                </div>
-              </a>  
-			  <a  href="#" style="text-decoration: none; display: inline-block; position: relative; none; margin:10px 8px;">
-                <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border: 1px solid black; border-radius: 50%; background-color: rgba(122, 32, 186, 0.86);">
-                  <div  style="text-align: center; font-size: 24px; color: white;">
-                    <p><%= answeredMarkForReview  %></p>
-                  </div>
-                </div>
-              </a>  
-			  <a  href="#" style="text-decoration: none; display: inline-block; position: relative; none; margin:10px 8px;">
-                <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border: 1px solid black; border-radius: 50%; background-color: rgba(122, 32, 186, 0.86);">
-                  <div  style="text-align: center; font-size: 24px; color: white;">
-                    <p><%= answeredMarkForReview  %></p>
-                  </div>
-                </div>
-              </a>  
-			  <a  href="#" style="text-decoration: none; display: inline-block; position: relative; none; margin:10px 8px;">
-                <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border: 1px solid black; border-radius: 50%; background-color: rgba(122, 32, 186, 0.86);">
-                  <div  style="text-align: center; font-size: 24px; color: white;">
-                    <p><%= answeredMarkForReview  %></p>
-                  </div>
-                </div>
-              </a>  
-			 
+	        <div class="right">
+	          <div class="top">
+	
+	            <div style="display: flex;">
+	              <a href="#" class="answered-link"><%= answered  %></a><p>Answered</p>
+	              <a href="#" class="notAnswered-link"><%= notAnswered  %></a><p>Not Answered</p>
+	            </div>
+	
+	            <div style="display: flex;">
+	              <a href="#" class="notVisited-link"><% out.print(QuestionsDao.countQuestions(sub) - (currentQuestionIndex +1)); %></a><p>Not Visited</p>
+	              <a href="#" class="markedforreview-link"><%= markForReview  %></a><div style="width: 80px;">Marked for Review</div>
+	            </div>
+	
+	            <div style="display: flex;">
+	              <a href="#" class="answeredandmarkedforreview-link"><%= answeredMarkForReview  %></a>
+	              <p style="color: black;width:78%;">Answered & Marked for Review (will be considered for evaluation)</p>
+	            </div>
+	
+	            <div class="middle"><%= sub %></div>	
+	            <div style="background-color: #bad3ed; padding-bottom:7px;">
+	              choose a question
+	            </div>
+	            </div>
 
-               		
-                   		
-
-
-<%-- <a href="${question.id}" style="text-decoration: none;">
-    <button style="width: 50px; height: 50px; border: 1px solid black; border-radius: 4px; background-color: rgb(250, 248, 248); margin: 8px;">
-        <span style="font-size: 22px; color: black;">0</span>
-    </button>
-</a>
-
-<a href="${question.id}" class="notVisited">
-    <button class="notVisitedButton">
-        <span class="buttonText">0</span>
-    </button>
-</a> --%>
-
-
-        
-             
-          </div>
-
-            
-          </div>
-
-          
-
-        </div>
+	          <div class="bottom " style="overflow-y: auto; min-height: 218px; margin-top:-25px; ">
+	            <div class="coloring-btn" style="background-color: #bad3ed ; ">
+	
+					<%
+					    int[] buttons_color = (int[]) request.getAttribute("buttons_color");
+						int count =(int) request.getAttribute("count");
+					    for (int i = 1; i < count+1; i++) {
+					        String classCol = null;
+					        if (buttons_color[i-1] == 0) {
+					            classCol = "notVisited-link";
+					        } else if (buttons_color[i-1] == 1 || (currentQuestionIndex+1) == i) {
+					            classCol = "notanswered-link";    
+					        } else if (buttons_color[i-1] == 2) {
+					            classCol = "answered-link";    
+					        } else if (buttons_color[i-1] == 3) {
+					            classCol = "markedforreview-link";    
+					        } else if (buttons_color[i-1] == 4) {
+					            classCol = "answeredandmarkedforreview-link";    
+					        }
+					%>
+					    <a href="${pageContext.request.contextPath}/examTestStart?num=<%= i-1 %>" class="<%= classCol %>"><%= i %></a>
+					    
+					<%
+					    }
+					%>
+					
+	          	</div>
+	          </div>
+	
+	        </div>
       </div>
       <div class="bottom">
       	<div class="navigation left">

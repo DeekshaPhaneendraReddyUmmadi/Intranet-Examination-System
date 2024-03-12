@@ -60,13 +60,13 @@ public class MultipleUpload extends HttpServlet {
         int correct_option = Integer.parseInt(request.getParameter("correct_option"));
         String subject = request.getParameter("subject");
         
-        System.out.println("subject : " + subject);
+//        System.out.println("subject : " + subject);
         QuestionsEntity questions = new QuestionsEntity(question,option_one,option_two,option_three,option_four,correct_option,subject);
         QuestionsDao dao = new QuestionsDao();
 //        System.out.println(request.getContextPath()+"/html/admin/add_mul_questions.jsp");
         
         
-        if(dao.save(questions)) {
+        if(dao.saveSubject(questions)) {
         	response.getWriter().println("Images uploaded successfully!");
         }else {
         	response.getWriter().println("Images uploaded successfully! but not on database !!");

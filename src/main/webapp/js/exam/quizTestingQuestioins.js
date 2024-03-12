@@ -1,23 +1,18 @@
-// Set the duration in milliseconds
-const duration = 180 * 60 * 1000; // 180 minutes * 60 seconds * 1000 milliseconds
 
-// Calculate the start time (3:00 PM)
+/*const duration = 180 * 60 * 1000;
 const startTime = new Date();
-startTime.setHours(19); // Set the hours to 15 for 3:00 PM
+startTime.setHours(19); 
 startTime.setMinutes(41);
 startTime.setSeconds(0);
 
-// Convert the start time to milliseconds since the Unix Epoch
 const startTimeInMillis = startTime.getTime();
 
-// Calculate the end time by adding the duration to the start time
+
 const endTime = startTimeInMillis + duration;
 
-// Update the timer every second
-const timerElement = document.getElementById('timer'); // Assuming you have an element with id 'timer' to display the timer
+const timerElement = document.getElementById('timer'); 
 
 function updateTimer() {
-    // Get the current time
     const currentTime = new Date().getTime();
 
     const remainingTime = endTime - currentTime;
@@ -36,7 +31,48 @@ function updateTimer() {
     timerInterval = setTimeout(updateTimer, 1000);
 }
 
+updateTimer();*/
+
+
+const duration = 180 * 60 * 1000;
+const startTime = new Date();
+startTime.setHours(20);
+startTime.setMinutes(15);
+startTime.setSeconds(0);
+
+const startTimeInMillis = startTime.getTime();
+
+const endTime = startTimeInMillis + duration;
+
+const timerElement = document.getElementById('timer');
+
+function updateTimer() {
+    const currentTime = new Date().getTime();
+    const remainingTime = endTime - currentTime;
+
+    if (remainingTime <= 0) {
+        clearTimeout(timerInterval);
+        console.log('Timer expired!');
+        return;
+    }
+
+    const minutes = Math.floor(remainingTime / (1000 * 60));
+    const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+    timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+    // Check if remaining time is 30 minutes or less and update timer color accordingly
+    if (remainingTime <= 30 * 60 * 1000) { // 30 minutes = 30 * 60 * 1000 milliseconds
+        timerElement.style.color = 'red'; // Change color to red
+    } else {
+        timerElement.style.color = 'black'; // Reset color to default
+    }
+
+    timerInterval = setTimeout(updateTimer, 1000);
+}
+
 updateTimer();
+
 
 
 function openExam() {

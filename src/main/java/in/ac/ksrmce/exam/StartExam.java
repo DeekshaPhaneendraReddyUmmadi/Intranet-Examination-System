@@ -5,11 +5,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import in.ac.ksrmce.config.questions_config.QuestionsDao;
 import in.ac.ksrmce.config.questions_config.QuestionsEntity;
+
+
+ 
 
 @WebServlet("/examTestStart")
 public class StartExam extends HttpServlet {
@@ -19,139 +25,225 @@ public class StartExam extends HttpServlet {
         super();
     }
     
-    static int answered = 0;
-    static int notAnswered = 0;
-    static int notVisited = QuestionsDao.count()-1;	
-    static int markForReview = 0;
-    static int answeredMarkForReview = 0;
-    static int totalMarks = 0;
-    
-    static boolean oneTime = true;
-    
-    static String sub = "maths";
-
 
 	static int totalQuestions = QuestionsDao.count()+1;
     String[] selectedOptions = new String[totalQuestions];
     int qNum = 0 ;
     int[] qNums = new int[totalQuestions];
-    static boolean over = false;
     
-    int mathsC = QuestionsDao.countofsubject("maths");
-    int physicsC = QuestionsDao.countofsubject("physics");
-    int chemistryC = QuestionsDao.countofsubject("chemistry");
+    int[] buttons_color = new int[totalQuestions];
     
     boolean mO = false;
     boolean pO = false;
     boolean cO = false;
-     
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    
+    static List<QuestionsEntity> questions = null;
+    
+    
+    static boolean oneTime = true;
+    static boolean singleTime = true;
+   
+    
+    static String sub= "maths";
+    
+    static int mathsC = QuestionsDao.countQuestions("maths");
+    static int physicsC = QuestionsDao.countQuestions("physics");
+    static int chemistryC = QuestionsDao.countQuestions("chemistry");
+    
+    
+    static int[] mathsSelected = new int[mathsC];
+    static int[] physicsSelected = new int[physicsC];
+    static int[] chemistrySelected = new int[chemistryC];
+
+    static int[] btnmathsSelected = new int[mathsC];
+    static int[] btnphysicsSelected = new int[physicsC];
+    static int[] btnchemistrySelected = new int[chemistryC];
+    
+    static int notVisited = QuestionsDao.count()-1;				// notVisited = 0
+    static int answered = 0;                                    // answered = 2
+    static int notAnswered = 0;									// notAnswered = 1
+    static int markForReview = 0;								// markForReview = 3
+    static int answeredMarkForReview = 0;						// answeredMarkForReview = 4
+    static int totalMarks = 0;									
+
+    
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+		int currentQuestionIndex = 0;
     	
-    	int currentQuestionIndex = 0;
-    	
+		HttpSession session = request.getSession();
+		String reference_number = (String)session.getAttribute("reference_number");
+		
+		String selectedSubject = request.getParameter("subject");
+		if(selectedSubject != null) {
+			sub = selectedSubject;
+			singleTime = true;
+		}
+
         String questionIndexParam = request.getParameter("questionIndex");
         if (questionIndexParam != null && !questionIndexParam.isEmpty()) {
             currentQuestionIndex = Integer.parseInt(questionIndexParam);
         }
-    	
-    	
-//    	sub = request.getParameter("subject");
+				
+		String selectedOption = request.getParameter("option");
+        int selectedOptionInt = 0;
+        if(selectedOption != null) {
+        	selectedOptionInt = Integer.parseInt(selectedOption);
+        }else if(selectedOption == null) {
+        	selectedOptionInt = 0 ;
+        }
+		
+        if(currentQuestionIndex != 0) {
+//        	selectedOptions[currentQuestionIndex-1] = selectedOption;        	
+//        	qNums[currentQuestionIndex-1] = qNum;     
+        	
+        	mathsSelected[currentQuestionIndex-1] = selectedOptionInt; 
+        }
+        
+        if(sub == "physics") {
+//        	selectedOptions[currentQuestionIndex-1 + mathsC] = selectedOption; 
+//        	qNums[currentQuestionIndex-1 + mathsC] = qNum; 
+        	
+        	
+        	physicsSelected[currentQuestionIndex-1] = selectedOptionInt; 
+        }
+        if(sub == "chemistry") {
+//        	selectedOptions[currentQuestionIndex-1 + mathsC + physicsC] = selectedOption; 
+//        	qNums[currentQuestionIndex-1 + mathsC + physicsC] = qNum; 
+        	
+        	chemistrySelected[currentQuestionIndex-1] = selectedOptionInt; 
+        }
+		
+        
+        
+        if(currentQuestionIndex == QuestionsDao.countQuestions(sub)) {
+        	String array = "[ ]";
+        	if(sub == "maths") {
+        		array =  Arrays.toString(mathsSelected);
+        	}else if(sub == "physics") {
+        		array =  Arrays.toString(physicsSelected);
+        	}else if(sub == "chemistry") {
+        		array =  Arrays.toString(chemistrySelected);
+        	}
+        	
+        	QuestionsDao.saveMarks(reference_number,array , sub);
+        }
+
 
         
+        if(sub == "chemistry" && currentQuestionIndex == chemistryC) {
+    		pO=false;
+    	}
+        if(sub == "physics" && currentQuestionIndex == physicsC && mO == true) {
+        	pO=true;
+        }
+        
+    	// without selecting subject
     	if( mathsC == currentQuestionIndex ) {
+    		singleTime = true;
     		mO = true;
     		sub = "physics";
     		currentQuestionIndex = 0 ;
     		answered = 0;
     		oneTime = true;
     		notAnswered = 0;
-    	}else if( physicsC ==  currentQuestionIndex && mO == true) {
+    	}else if( physicsC ==  currentQuestionIndex && mO == true && pO == true) {
+    		singleTime = true;
     		sub="chemistry";
     		currentQuestionIndex = 0 ;
     		answered = 0;
     		notAnswered = 0;
     		oneTime = true;
     	}
-//    	if( QuestionsDao.countofsubject("physics") == currentQuestionIndex ) {
-//    		sub = "chemistry";
-//    		currentQuestionIndex = 0 ;
-//    	}
     	
-//    	System.out.println("currentQuestionsINdex : " + currentQuestionIndex);
-//    	System.out.println("maths over : "+ (QuestionsDao.countofsubject("maths") == currentQuestionIndex));
-//    	System.out.println("subject : " + sub);
-//    	System.out.println(" maths : " + QuestionsDao.countofsubject("maths"));
-//    	System.out.println(" physics : " + QuestionsDao.countofsubject("physics"));
-//    	System.out.println(" chemistry : " + QuestionsDao.countofsubject("chemistry"));
-//    	System.out.println("  m + p  : " + (QuestionsDao.countofsubject("maths") + QuestionsDao.countofsubject("physics")));
-//    	System.out.println("  m + p + c  : " + (QuestionsDao.countofsubject("maths") + QuestionsDao.countofsubject("physics") + QuestionsDao.countofsubject("chemistry")));
-    	
-        List<QuestionsEntity> questions = QuestionsDao.randomquesionswithsubject(sub);
+        if(singleTime) {
+            for(int i = 0 ; i < buttons_color.length ; i++) {
+            	buttons_color[i]=0;
+            }
+        	questions = QuestionsDao.listrandomQuestions(sub,reference_number);
+        	singleTime = false;
+        }
         
         
+        String selectedQuestion = request.getParameter("num");
+        if(selectedQuestion != null) {
+        	currentQuestionIndex = Integer.parseInt(selectedQuestion);
+        }
+        System.out.println("selectedQuestion : "+ selectedQuestion);
+        System.out.println("currentQuestionIndex : "+ currentQuestionIndex);
         
-        if (currentQuestionIndex >= 0 && currentQuestionIndex < QuestionsDao.count()) {
+        if(sub == "chemistry" && currentQuestionIndex == chemistryC) {
+        	currentQuestionIndex = chemistryC - 1;
+        }
+        
+        if (currentQuestionIndex >= 0 && currentQuestionIndex <= mathsC) {
         	QuestionsEntity currentQuestion = questions.get(currentQuestionIndex);
-            
-            String imagePath = request.getContextPath() + "/images/questions/";
+ 
             currentQuestion.setId(currentQuestion.getId());
-            currentQuestion.setQuestion(imagePath + currentQuestion.getQuestion());
-            currentQuestion.setOption_one(imagePath + currentQuestion.getOption_one());
-            currentQuestion.setOption_two(imagePath + currentQuestion.getOption_two());
-            currentQuestion.setOption_three(imagePath + currentQuestion.getOption_three());
-            currentQuestion.setOption_four(imagePath + currentQuestion.getOption_four());
+            currentQuestion.setQuestion( currentQuestion.getQuestion());
+            currentQuestion.setOption_one( currentQuestion.getOption_one());
+            currentQuestion.setOption_two( currentQuestion.getOption_two());
+            currentQuestion.setOption_three( currentQuestion.getOption_three());
+            currentQuestion.setOption_four( currentQuestion.getOption_four());
             request.setAttribute("question", currentQuestion);
             
             qNum = currentQuestion.getId();
-        } else {
-            over = true;
         }
 
-        request.setAttribute("currentQuestionIndex", currentQuestionIndex);
+        
+        
 
-        String selectedOption = request.getParameter("option");
+        
+//        System.out.print("questions [ ");
+//        for(int q : qNums) {
+//        	System.out.print(q+" ");
+//        }System.out.println(" ]");
+//        System.out.print("answers [ ");
+//        for(String o : selectedOptions) {
+//        	System.out.print(o+" ");
+//        }System.out.println(" ]");
+        
+//        buttons_color[currentQuestionIndex] = 1;
+//        buttons_color[currentQuestionIndex] = 1;
+//        System.out.println("");
         
         
         
-//        System.out.println("current question :  " + qNum);
-//        System.out.println("selected option : " + selectedOption);
-        if(currentQuestionIndex != 0) {
-        	selectedOptions[currentQuestionIndex-1] = selectedOption;        	
-        	qNums[currentQuestionIndex-1] = qNum;        	
+        
+        for(int b : buttons_color) {
+        	System.out.print(b+"  ");
         }
-        
-        if(sub == "physics") {
-        	selectedOptions[currentQuestionIndex-1 + mathsC] = selectedOption; 
-        	qNums[currentQuestionIndex-1 + mathsC] = qNum; 
-        	
+        System.out.print("\nmaths : ");
+        for(int b : mathsSelected) {
+        	System.out.print(b+"  ");
         }
-        if(sub == "chemistry") {
-        	selectedOptions[currentQuestionIndex-1 + mathsC + physicsC] = selectedOption; 
-        	qNums[currentQuestionIndex-1 + mathsC + physicsC] = qNum; 
+        System.out.print("\nphysics : ");
+        for(int b : physicsSelected) {
+        	System.out.print(b+"  ");
         }
-        System.out.print("[ ");
-        for(int q : qNums) {
-        	System.out.print(q+" ");
-        }System.out.print(" ]");
-        System.out.println("[ ");
-        for(String o : selectedOptions) {
-        	System.out.print(o+" ");
-        }System.out.println(" ]");
+        System.out.print("\nchemistry : ");
+        for(int b : chemistrySelected) {
+        	System.out.print(b+"  ");
+        }
         
         if(selectedOption != null && selectedOptions[currentQuestionIndex+1] == null) {
-        	System.out.println("in answered : ");
+        	buttons_color[currentQuestionIndex] = 2 ;
         	totalMarks++;
         	answered++;
         	notVisited--;
         }else if(selectedOption == null && currentQuestionIndex!=0) {
+        	buttons_color[currentQuestionIndex] = 1 ;
         	notAnswered++;
         	notVisited--;
         }
-        
+//        }else {
+        	buttons_color[currentQuestionIndex] = 1;
+//        }
+
         if(oneTime) {
         	notAnswered++;
-        	oneTime = false;
-        }else if(currentQuestionIndex == QuestionsDao.countofsubject(sub)) {
+        	oneTime = false;	
+        }else if(currentQuestionIndex == QuestionsDao.countQuestions(sub)) {
         	notAnswered--;
         	oneTime=true;
         }
@@ -161,19 +253,13 @@ public class StartExam extends HttpServlet {
         request.setAttribute("markForReview", markForReview);
         request.setAttribute("answeredMarkForReview", answeredMarkForReview);
         request.setAttribute("sub", sub);
+        request.setAttribute("buttons_color", buttons_color);
+        request.setAttribute("count", questions.size());
+        request.setAttribute("currentQuestionIndex", currentQuestionIndex);
         
-        if(over) {
-        	answered = 0;
-            notAnswered = 0;
-            markForReview = 0;
-            answeredMarkForReview = 0;
-        	request.setAttribute("count", totalMarks);
-            over=false;
-            request.getRequestDispatcher("/html/exam/totalmarks.jsp").forward(request, response);
-        }else {
-        	request.getRequestDispatcher("/html/exam/quizTestingQuestioins.jsp").forward(request, response);        	
-        }
+        request.getRequestDispatcher("/html/exam/quizTestingQuestioins.jsp").forward(request, response);        	
     }
+    
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);

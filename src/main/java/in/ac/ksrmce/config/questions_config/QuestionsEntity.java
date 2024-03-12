@@ -15,6 +15,37 @@ public class QuestionsEntity {
 		super();
 	}
 	
+	
+	
+	
+	public QuestionsEntity(int id, String question, String option_one, String option_two, String option_three,
+			String option_four, int correct_option) {
+		super();
+		this.id = id;
+		this.question = question;
+		this.option_one = option_one;
+		this.option_two = option_two;
+		this.option_three = option_three;
+		this.option_four = option_four;
+		this.correct_option = correct_option;
+	}
+
+
+
+
+	public QuestionsEntity( String question, String option_one, String option_two, String option_three,
+			String option_four, int correct_option) {
+		super();
+		this.question = question;
+		this.option_one = option_one;
+		this.option_two = option_two;
+		this.option_three = option_three;
+		this.option_four = option_four;
+		this.correct_option = correct_option;
+	}
+
+
+
 	public QuestionsEntity(int id, String question, String option_one, String option_two, String option_three,
 			String option_four, int correct_option, String subject) {
 		super();

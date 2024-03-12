@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Start Exam</title>
 </head>
 <body>
 
@@ -18,11 +18,24 @@
 <!-- <button onclick="openExam()">Start Exam</button> -->
 
 
+<!-- 
 <a href="#" onclick="openExam()" id="startBtn">Start Exam</a><br>
 
 
 
-<a href="#" onclick="openExamOne()" id="startBtnOne">Start Exam 0</a><br>
+<a href="#" onclick="openExamOne()" id="startBtnOne">Start Exam 0</a><br> -->
+
+
+
+
+<form action="/examTestStart" >
+
+	<input type="text" name="username"  placeholder="User Name"/>
+	<input type="text" name="password" placeholder="Password"/>
+	<input type="submit" />
+
+</form>
+
 
 
 <a href="<%= request.getContextPath()%>/examTestStart" >Start Exam 1</a>
