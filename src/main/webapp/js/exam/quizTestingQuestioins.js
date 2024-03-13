@@ -87,13 +87,18 @@ function submitExam() {
     document.forms['quizForm'].submit();
 }
 
+var valueToSend = "";
+
 document.getElementById('actualSaveAndNext').addEventListener('click', function() {
-    // Trigger click event of the submit button when the other button is clicked
+	valueToSend = "1"; 
+    document.getElementById('saveAndNext').value = valueToSend; 
     document.getElementById('saveAndNext').click();
 });
 
 
 document.getElementById('actualMarkForReview').addEventListener('click', function() {
+	valueToSend = "2"; 
+    document.getElementById('markForReview').value = valueToSend; 
     document.getElementById('markForReview').click();
 });
 

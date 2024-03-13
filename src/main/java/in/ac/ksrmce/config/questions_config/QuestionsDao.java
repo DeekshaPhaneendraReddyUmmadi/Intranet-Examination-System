@@ -259,7 +259,7 @@ public class QuestionsDao {
 				} else if (subject.equals("chemistry")) {
 				    randomQ = "answers_c";
 				}
-				
+				System.out.println("in the questions  answers :  "+ answers);
 				String sql = "UPDATE marks SET " + randomQ + " = ? WHERE reference_number = ?";
 				PreparedStatement statement = con.prepareStatement(sql);
 				statement.setString(1, answers);

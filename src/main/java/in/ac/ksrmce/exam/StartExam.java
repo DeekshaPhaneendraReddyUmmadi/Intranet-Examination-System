@@ -27,9 +27,9 @@ public class StartExam extends HttpServlet {
     
 
 	static int totalQuestions = QuestionsDao.count()+1;
-    String[] selectedOptions = new String[totalQuestions];
-    int qNum = 0 ;
-    int[] qNums = new int[totalQuestions];
+    
+//    int qNum = 0 ;
+//    int[] qNums = new int[totalQuestions];
     
     int[] buttons_color = new int[totalQuestions];
     
@@ -59,6 +59,10 @@ public class StartExam extends HttpServlet {
     static int[] btnphysicsSelected = new int[physicsC];
     static int[] btnchemistrySelected = new int[chemistryC];
     
+   
+    
+    String[] selectedOptions = new String[totalQuestions];
+    
     static int notVisited = QuestionsDao.count()-1;				// notVisited = 0
     static int answered = 0;                                    // answered = 2
     static int notAnswered = 0;									// notAnswered = 1
@@ -68,9 +72,10 @@ public class StartExam extends HttpServlet {
 
     
 protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		
 		int currentQuestionIndex = 0;
-    	
+		int button = 0;
+		
 		HttpSession session = request.getSession();
 		String reference_number = (String)session.getAttribute("reference_number");
 		
@@ -80,10 +85,17 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 			singleTime = true;
 		}
 
-        String questionIndexParam = request.getParameter("questionIndex");
+
+		String questionIndexParam = request.getParameter("questionIndex");
         if (questionIndexParam != null && !questionIndexParam.isEmpty()) {
             currentQuestionIndex = Integer.parseInt(questionIndexParam);
         }
+        
+        
+        if(currentQuestionIndex > 0) {
+			button = Integer.parseInt(request.getParameter("button"));
+			System.out.println("buttons : : "+ button);
+		}
 				
 		String selectedOption = request.getParameter("option");
         int selectedOptionInt = 0;
@@ -94,28 +106,72 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
         }
 		
         if(currentQuestionIndex != 0) {
-//        	selectedOptions[currentQuestionIndex-1] = selectedOption;        	
-//        	qNums[currentQuestionIndex-1] = qNum;     
-        	
         	mathsSelected[currentQuestionIndex-1] = selectedOptionInt; 
         }
-        
-        if(sub == "physics") {
-//        	selectedOptions[currentQuestionIndex-1 + mathsC] = selectedOption; 
-//        	qNums[currentQuestionIndex-1 + mathsC] = qNum; 
-        	
-        	
+        if(sub == "physics" && currentQuestionIndex != 0) { 
         	physicsSelected[currentQuestionIndex-1] = selectedOptionInt; 
         }
-        if(sub == "chemistry") {
-//        	selectedOptions[currentQuestionIndex-1 + mathsC + physicsC] = selectedOption; 
-//        	qNums[currentQuestionIndex-1 + mathsC + physicsC] = qNum; 
-        	
+        if(sub == "chemistry" && currentQuestionIndex != 0) {
         	chemistrySelected[currentQuestionIndex-1] = selectedOptionInt; 
         }
+        
+        
+        buttons_color[currentQuestionIndex] = 1;
+        if(selectedOption != null && selectedOptions[currentQuestionIndex+1] == null && button==1) {
+//        	buttons_color[currentQuestionIndex] = 2 ;
+        	totalMarks++;
+        	answered++;
+        	notVisited--;
+        	
+        	if(sub == "maths") {
+        		btnmathsSelected[currentQuestionIndex-1] = 2;
+        	}else if(sub == "physics" && currentQuestionIndex != 0) {
+        		btnphysicsSelected[currentQuestionIndex-1] = 2;
+        	}else if(sub == "chemistry" && currentQuestionIndex != 0) {
+        		btnchemistrySelected[currentQuestionIndex-1] = 2;
+        	}
+        	
+        }else if(selectedOption == null && currentQuestionIndex!=0 &&  button == 1) {
+//        	buttons_color[currentQuestionIndex] = 1 ;
+        	notAnswered++;
+        	notVisited--;
+        	if(sub == "maths") {
+        		btnmathsSelected[currentQuestionIndex-1] = 1;
+        	}else if(sub == "physics" && currentQuestionIndex != 0) {
+        		btnphysicsSelected[currentQuestionIndex-1] = 1;
+        	}else if(sub == "chemistry" && currentQuestionIndex != 0) {
+        		btnchemistrySelected[currentQuestionIndex-1] = 1;
+        	}
+        }else if(selectedOption != null && selectedOptions[currentQuestionIndex+1] == null && button==2) {
+//        	buttons_color[currentQuestionIndex] = 2 ;
+        	totalMarks++;
+        	answeredMarkForReview++;
+        	notVisited--;
+        	
+        	if(sub == "maths") {
+        		btnmathsSelected[currentQuestionIndex-1] = 4;
+        	}else if(sub == "physics" && currentQuestionIndex != 0) {
+        		btnphysicsSelected[currentQuestionIndex-1] = 4;
+        	}else if(sub == "chemistry" && currentQuestionIndex != 0) {
+        		btnchemistrySelected[currentQuestionIndex-1] = 4;
+        	}
+        	
+        }else if(selectedOption == null && currentQuestionIndex!=0 &&  button == 2) {
+        	buttons_color[currentQuestionIndex] = 1 ;
+        	markForReview++;
+        	notVisited--;
+        	if(sub == "maths") {
+        		btnmathsSelected[currentQuestionIndex-1] = 3;
+        	}else if(sub == "physics" && currentQuestionIndex != 0) {
+        		btnphysicsSelected[currentQuestionIndex-1] = 3;
+        	}else if(sub == "chemistry" && currentQuestionIndex != 0) {
+        		btnchemistrySelected[currentQuestionIndex-1] = 3;
+        	}
+        }
+        
 		
         
-        
+        // store the selected answered
         if(currentQuestionIndex == QuestionsDao.countQuestions(sub)) {
         	String array = "[ ]";
         	if(sub == "maths") {
@@ -125,12 +181,9 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
         	}else if(sub == "chemistry") {
         		array =  Arrays.toString(chemistrySelected);
         	}
-        	
         	QuestionsDao.saveMarks(reference_number,array , sub);
         }
 
-
-        
         if(sub == "chemistry" && currentQuestionIndex == chemistryC) {
     		pO=false;
     	}
@@ -140,20 +193,20 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
         
     	// without selecting subject
     	if( mathsC == currentQuestionIndex ) {
-    		singleTime = true;
-    		mO = true;
     		sub = "physics";
-    		currentQuestionIndex = 0 ;
-    		answered = 0;
+    		mO = true;
     		oneTime = true;
-    		notAnswered = 0;
-    	}else if( physicsC ==  currentQuestionIndex && mO == true && pO == true) {
     		singleTime = true;
-    		sub="chemistry";
-    		currentQuestionIndex = 0 ;
     		answered = 0;
     		notAnswered = 0;
+    		currentQuestionIndex = 0 ;
+    	}else if( physicsC ==  currentQuestionIndex && mO == true && pO == true) {
+    		sub="chemistry";
     		oneTime = true;
+    		singleTime = true;
+    		answered = 0;
+    		notAnswered = 0;
+    		currentQuestionIndex = 0 ;
     	}
     	
         if(singleTime) {
@@ -176,6 +229,8 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
         	currentQuestionIndex = chemistryC - 1;
         }
         
+        
+        // setting the next question and selected question
         if (currentQuestionIndex >= 0 && currentQuestionIndex <= mathsC) {
         	QuestionsEntity currentQuestion = questions.get(currentQuestionIndex);
  
@@ -186,26 +241,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
             currentQuestion.setOption_three( currentQuestion.getOption_three());
             currentQuestion.setOption_four( currentQuestion.getOption_four());
             request.setAttribute("question", currentQuestion);
-            
-            qNum = currentQuestion.getId();
         }
-
-        
-        
-
-        
-//        System.out.print("questions [ ");
-//        for(int q : qNums) {
-//        	System.out.print(q+" ");
-//        }System.out.println(" ]");
-//        System.out.print("answers [ ");
-//        for(String o : selectedOptions) {
-//        	System.out.print(o+" ");
-//        }System.out.println(" ]");
-        
-//        buttons_color[currentQuestionIndex] = 1;
-//        buttons_color[currentQuestionIndex] = 1;
-//        System.out.println("");
         
         
         
@@ -226,20 +262,45 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
         	System.out.print(b+"  ");
         }
         
-        if(selectedOption != null && selectedOptions[currentQuestionIndex+1] == null) {
-        	buttons_color[currentQuestionIndex] = 2 ;
-        	totalMarks++;
-        	answered++;
-        	notVisited--;
-        }else if(selectedOption == null && currentQuestionIndex!=0) {
-        	buttons_color[currentQuestionIndex] = 1 ;
-        	notAnswered++;
-        	notVisited--;
+        
+        
+        
+        System.out.print("\nmaths : ");
+        for(int b : btnmathsSelected) {
+        	System.out.print(b+"  ");
         }
-//        }else {
-        	buttons_color[currentQuestionIndex] = 1;
-//        }
-
+        System.out.print("\nphysics : ");
+        for(int b : btnphysicsSelected) {
+        	System.out.print(b+"  ");
+        }
+        System.out.print("\nchemistry : ");
+        for(int b : btnchemistrySelected) {
+        	System.out.print(b+"  ");
+        }
+        
+        
+        if(currentQuestionIndex == 0) {
+        	answered = 0;
+        }
+        if(currentQuestionIndex == 1 && selectedOption!=null) {
+        	if(sub == "maths") {
+        		btnmathsSelected[currentQuestionIndex-1] = 2;
+        	}else if(sub == "physics" && currentQuestionIndex != 0) {
+        		btnphysicsSelected[currentQuestionIndex-1] = 2;
+        	}else if(sub == "chemistry" && currentQuestionIndex != 0) {
+        		btnchemistrySelected[currentQuestionIndex-1] = 2;
+        	}
+        }else if(currentQuestionIndex == 1 && selectedOption == null) {
+        	if(sub == "maths") {
+        		btnmathsSelected[currentQuestionIndex-1] = 1;
+        	}else if(sub == "physics" && currentQuestionIndex != 0) {
+        		btnphysicsSelected[currentQuestionIndex-1] = 1;
+        	}else if(sub == "chemistry" && currentQuestionIndex != 0) {
+        		btnchemistrySelected[currentQuestionIndex-1] = 1;
+        	}
+        }
+        
+        
         if(oneTime) {
         	notAnswered++;
         	oneTime = false;	
@@ -248,12 +309,19 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
         	oneTime=true;
         }
        
+        if(sub == "maths") {
+        	request.setAttribute("buttons_color", btnmathsSelected);
+        }else if(sub == "physics" && currentQuestionIndex != 0) {
+        	request.setAttribute("buttons_color", btnphysicsSelected);
+        }else if(sub == "chemistry" && currentQuestionIndex != 0) {
+        	request.setAttribute("buttons_color", btnchemistrySelected);
+        }
         request.setAttribute("answered", answered);
         request.setAttribute("notAnswered", notAnswered);
         request.setAttribute("markForReview", markForReview);
         request.setAttribute("answeredMarkForReview", answeredMarkForReview);
         request.setAttribute("sub", sub);
-        request.setAttribute("buttons_color", buttons_color);
+        
         request.setAttribute("count", questions.size());
         request.setAttribute("currentQuestionIndex", currentQuestionIndex);
         

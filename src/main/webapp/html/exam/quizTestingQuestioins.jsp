@@ -131,8 +131,8 @@ String photo = (String)session.getAttribute("photo");
 				        	<img style="width:11%" src="<%=path %>${question.option_four}" alt="Option 4">
 				        </label><br>
 				        <button type="submit" name="subject" value="sub" style="display:none;"></button>
-				        <button type="submit" id="saveAndNext" name="saveandnext" style="display: none;">Save & Next</button>
-					    <button type="submit" id="markForReview" name="markforreview" value="markForReview" style="display:none;">Mark for Review</button>
+				        <button type="submit" id="saveAndNext" name="button" value="1" style="display: none;">Save & Next</button>
+					    <button type="submit" id="markForReview" name="button" value="2" style="display:none;">Mark for Review</button>
 				    </form>
 				
 				</div>
@@ -197,10 +197,10 @@ String photo = (String)session.getAttribute("photo");
       <div class="bottom">
       	<div class="navigation left">
             <div class="btm-btn">
-                <button type="button" id="actualMarkForReview" class="btm-btn-left" >Mark for Review & Next</button>
+                <button type="button" id="actualMarkForReview" class="btm-btn-left" name="button" value="2">Mark for Review & Next</button>
                 <button type="reset" class="btm-btn-left" onclick="clearResponse()">Clear Response</button>
             </div>
-            <button type="button" id="actualSaveAndNext" class="save-next-button btm-btn-right" onclick="saveAndNext()">Save & Next</button>
+            <button type="button" id="actualSaveAndNext" class="save-next-button btm-btn-right" name="button" value="1" >Save & Next</button>
             <form class="quizForm">
             	
             </form>
