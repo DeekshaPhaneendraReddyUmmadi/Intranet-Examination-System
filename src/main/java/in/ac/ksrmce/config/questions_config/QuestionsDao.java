@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -90,50 +91,71 @@ public class QuestionsDao {
 		return listquestions;
 	}
 	
+	
+	public static boolean isTrue(String reference_number) {
+		String isT = "";
+		try {
+			Connection con=QuestionsDao.getConnection();
+			PreparedStatement statement=con.prepareStatement("select is_true from marks where reference_number = ?");
+			statement.setString(1, reference_number);
+			ResultSet rs=statement.executeQuery();
+			
+			while(rs.next()) {
+				isT = rs.getString("is_true");
+			}
+			
+//			if(isT == null) {
+//				statement = con.prepareStatement("UPDATE marks SET  is_true  = 'false' WHERE reference_number = ?");
+//				statement.setString(1, reference_number);
+//				rs=statement.executeQuery();
+//			}
+			
+			if(isT.equals("true")) {
+				return false;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return true;
+	}
+	
 	public static List<QuestionsEntity> listrandomQuestions(String sub,String reference_number){
 		List<QuestionsEntity> listallquestions = new ArrayList<>();
 		
 		List<QuestionsEntity> que = listquestionswithsubjects(sub);
 		
-		QuestionsDao.genratingRandomNumbers("maths",reference_number);
-		QuestionsDao.genratingRandomNumbers("physics",reference_number);
-		QuestionsDao.genratingRandomNumbers("chemistry",reference_number);
+		System.out.println("reference Number : ; "+ reference_number);
+		if(isTrue(reference_number)) {
+			genratingRandomNumbers("maths",reference_number);
+			genratingRandomNumbers("physics",reference_number);
+			genratingRandomNumbers("chemistry",reference_number);
+			
+			subjectOptionsPut("maths",reference_number);
+			subjectOptionsPut("physics",reference_number);
+			subjectOptionsPut("chemistry",reference_number);
+			
+			subjectColorOptionsPut("maths",reference_number);
+			subjectColorOptionsPut("physics",reference_number);
+			subjectColorOptionsPut("chemistry",reference_number);
+		}
 		
-//		int count = countQuestions(sub);
-//		System.out.println("i''m que : "+que.toString());
 		int[] randomQuestionNumbers = questionNumbers(sub , reference_number);
 		
-//		System.out.println(randomQuestionNumbers.toString());
 		for(int r : randomQuestionNumbers) {
 			System.out.print(r+"  ");
 		}
-//		for(QuestionsEntity r : que) {
-//			System.out.println(r+"  ");
-//		}
-//		System.out.println("que(size) : "+que.size()+" |   num size : ;"+ randomQuestionNumbers.length);
-//		for(int i = 0 ;i < que.size() ; i++ ) {
-////			System.out.println("im in teh adding  block : : i + "+ (i));
-//			listallquestions.add(que.get(randomQuestionNumbers[i]));
-//		}
-		
-		
+
 		for (int i = 0; i < randomQuestionNumbers.length; i++) {
-//			System.out.println("i = "+ i);
 		    int index = randomQuestionNumbers[i]-1;
 		    if (index >= 0 && index < que.size()) {
-//		    	System.out.println("index = "+ index);
 		        listallquestions.add(que.get(index));
 		    }
 		}
-		
-//		System.out.println("length : "+listallquestions.size());
-//		
-//		for(QuestionsEntity r : listallquestions) {
-//			System.out.println(r+"  ");
-//		}
-		
-//		System.out.println("i'm printing : "+listallquestions.toString());
-		
+
 		return listallquestions;
 	}
 	
@@ -245,25 +267,199 @@ public class QuestionsDao {
         } catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-//		return sequence.toString();
+        
+        if(sub.equals("chemistry")) {
+        	try{
+    			Connection con=QuestionsDao.getConnection();
+    			
+    			String sql = "UPDATE marks SET  is_true  = 'true' WHERE reference_number = ?";
+    			PreparedStatement statement = con.prepareStatement(sql);
+    			statement.setString(1, reference_number);
+    			statement.executeUpdate();
+    			
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+    			e.printStackTrace();
+    		}
+        }
 	}
 	
-	public static void saveMarks(String reference_number ,String answers ,String subject) {
+	
+	public static int[] subjectOptionsGet(String subject, String reference_number) {
+	    String nums = "";
+	    try {
+	        Connection con = QuestionsDao.getConnection();
+	        String randomQ = null;
+	        if (subject.equals("maths")) {
+	            randomQ = "answers_m";
+	        } else if (subject.equals("physics")) {
+	            randomQ = "answers_p";
+	        } else if (subject.equals("chemistry")) {
+	            randomQ = "answers_c";
+	        }
+
+	        String sql = "SELECT " + randomQ + " FROM marks WHERE reference_number = ?";
+	        PreparedStatement statement = con.prepareStatement(sql);
+	        statement.setString(1, reference_number);
+
+	        ResultSet rs = statement.executeQuery();
+	        if (rs.next()) {
+	            nums = rs.getString(randomQ);
+	        } else {
+	        }
+	        System.out.println("IN THE QUESTIONSDAO NUMS " + nums);
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } catch (ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
+
+	    if (nums.isEmpty()) {
+	        return new int[0]; 
+	    }
+
+	    String[] elements = nums.substring(1, nums.length() - 1).split(", ");
+	    int[] numbers = new int[elements.length];
+	    for (int i = 0; i < elements.length; i++) {
+	        try {
+	            numbers[i] = Integer.parseInt(elements[i]);
+	        } catch (NumberFormatException ex) {
+	            ex.printStackTrace();
+	        }
+	    }
+	    return numbers;
+	}
+
+	
+	public static void subjectOptionsPut(String subject , String reference_number) {
+		int count = countQuestions(subject);
+		int[] array = new int[count];
+		for(int i = 0 ; i < count ; i++) {
+			array[i] = 0;
+		}
+		String arr = Arrays.toString(array);
+		try{
+			Connection con=QuestionsDao.getConnection();
+			String randomQ = null;
+			if (subject.equals("maths")) {
+				randomQ = "answers_m";
+			} else if (subject.equals("physics")) {
+				randomQ = "answers_p";
+			} else if (subject.equals("chemistry")) {
+				randomQ = "answers_c";
+			}
+			
+			String sql = "UPDATE marks SET " + randomQ + " = ? WHERE reference_number = ?";
+			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setString(1,arr);
+			statement.executeQuery();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	public static int[] subjectColorOptionsGet(String subject, String reference_number) {
+		String nums = "";
+		try {
+			Connection con = QuestionsDao.getConnection();
+			String randomQ = null;
+			if (subject.equals("maths")) {
+				randomQ = "color_m";
+			} else if (subject.equals("physics")) {
+				randomQ = "color_p";
+			} else if (subject.equals("chemistry")) {
+				randomQ = "color_c";
+			}
+			
+			String sql = "SELECT " + randomQ + " FROM marks WHERE reference_number = ?";
+			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setString(1, reference_number);
+			
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				nums = rs.getString(randomQ);
+			} else {
+			}
+			System.out.println("IN THE QUESTIONSDAO NUMS " + nums);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		if (nums.isEmpty()) {
+			return new int[0]; 
+		}
+		
+		String[] elements = nums.substring(1, nums.length() - 1).split(", ");
+		int[] numbers = new int[elements.length];
+		for (int i = 0; i < elements.length; i++) {
+			try {
+				numbers[i] = Integer.parseInt(elements[i]);
+			} catch (NumberFormatException ex) {
+				ex.printStackTrace();
+			}
+		}
+		return numbers;
+	}
+	
+	
+	public static void subjectColorOptionsPut(String subject , String reference_number) {
+		int count = countQuestions(subject);
+		int[] array = new int[count];
+		for(int i = 0 ; i < count ; i++) {
+			array[i] = 0;
+		}
+		String arr = Arrays.toString(array);
+		try{
+			Connection con=QuestionsDao.getConnection();
+			String randomQ = null;
+			if (subject.equals("maths")) {
+				randomQ = "color_m";
+			} else if (subject.equals("physics")) {
+				randomQ = "color_p";
+			} else if (subject.equals("chemistry")) {
+				randomQ = "color_c";
+			}
+			
+			String sql = "UPDATE marks SET " + randomQ + " = ? WHERE reference_number = ?";
+			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setString(1,arr);
+			statement.executeQuery();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void saveMarks(String reference_number ,String answers ,String subject,String btnColor) {
 		 try{
 				Connection con=QuestionsDao.getConnection();
 				String randomQ = null;
+				String color = null;
 				if (subject.equals("maths")) {
 				    randomQ = "answers_m";
+				    color = "color_m";
 				} else if (subject.equals("physics")) {
 				    randomQ = "answers_p";
+				    color = "color_p";
 				} else if (subject.equals("chemistry")) {
 				    randomQ = "answers_c";
+				    color = "color_c";
 				}
 				System.out.println("in the questions  answers :  "+ answers);
-				String sql = "UPDATE marks SET " + randomQ + " = ? WHERE reference_number = ?";
+//				String sql = "UPDATE marks SET " + randomQ + " = ? ,"+ color +" = ? WHERE reference_number = ?";
+				String sql = "UPDATE marks SET " + randomQ + " = ?, " + color + " = ? WHERE reference_number = ?";
+
 				PreparedStatement statement = con.prepareStatement(sql);
 				statement.setString(1, answers);
-				statement.setString(2, reference_number);
+				statement.setString(2, btnColor);
+				statement.setString(3, reference_number);
 				statement.executeUpdate();
 				
 	        } catch (SQLException e) {

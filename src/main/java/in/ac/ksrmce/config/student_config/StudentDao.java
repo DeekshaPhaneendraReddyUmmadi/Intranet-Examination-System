@@ -22,11 +22,13 @@ public class StudentDao {
 	}
 	
 	public static boolean saveReferenceNumber(String ref) {
+		String isT = "";
 		try {
 			Connection con=StudentDao.getConnection();
-            String sql = "INSERT INTO marks(reference_number) VALUES (?)";
+            String sql = "INSERT INTO marks(reference_number,is_true) VALUES (?,?)";
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setString(1, ref);
+            statement.setString(2,"false");
             int rowInserted = statement.executeUpdate();
             return rowInserted>0;
 		}catch (SQLException e) {

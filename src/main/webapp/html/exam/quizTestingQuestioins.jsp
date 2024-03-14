@@ -104,6 +104,11 @@ String photo = (String)session.getAttribute("photo");
 				/* QuestionsEntity currentQuestion = questions.get(currentQuestionIndex);  */
 				
 					String path = request.getContextPath() + "/images/questions/";
+				
+					String selectedOpt = (String) request.getAttribute("s");
+			        if (selectedOpt == null) {
+			            selectedOpt = ""; 
+			        }
 				%>
 	
 	
@@ -115,21 +120,21 @@ String photo = (String)session.getAttribute("photo");
 				    	<img style="width:50%" src="<%=path %>${question.question}" alt="Question <%= currentQuestionIndex + 1 %>">
 				        <input type="hidden" name="questionIndex" value="<%= currentQuestionIndex + 1 %>">
 				        <label>
-				        	<input type="radio" name="option" value="1">
-				        	<img style="width:11%" src="<%=path %>${question.option_one}" alt="Option 1">
-				        </label><br>
-				        <label>
-				        	<input type="radio" name="option" value="2">
-				        	<img style="width:11%" src="<%=path %>${question.option_two}" alt="Option 2">
-				        </label><br>
-				        <label>
-				        	<input type="radio" name="option" value="3">
-				        	<img style="width:11%" src="<%=path %>${question.option_three}" alt="Option 3">
-				        </label><br>
-				        <label>
-				        	<input type="radio" name="option" value="4">
-				        	<img style="width:11%" src="<%=path %>${question.option_four}" alt="Option 4">
-				        </label><br>
+						    <input type="radio" name="option" value="1"   <% if (selectedOpt.equals("1")) { %> checked <% } %> />
+						    <img style="width:11%" src="<%=path %>${question.option_one}" alt="Option 1">
+						</label><br>
+						<label>
+						    <input type="radio" name="option" value="2" <% if (selectedOpt.equals("2")) { %> checked <% } %>>
+						    <img style="width:11%" src="<%=path %>${question.option_two}" alt="Option 2">
+						</label><br>
+						<label>
+						    <input type="radio" name="option" value="3" <% if (selectedOpt.equals("3")) { %> checked <% } %>>
+						    <img style="width:11%" src="<%=path %>${question.option_three}" alt="Option 3">
+						</label><br>
+						<label>
+						    <input type="radio" name="option" value="4" <% if (selectedOpt.equals("4")) { %> checked <% } %>>
+						    <img style="width:11%" src="<%=path %>${question.option_four}" alt="Option 4">
+						</label><br>
 				        <button type="submit" name="subject" value="sub" style="display:none;"></button>
 				        <button type="submit" id="saveAndNext" name="button" value="1" style="display: none;">Save & Next</button>
 					    <button type="submit" id="markForReview" name="button" value="2" style="display:none;">Mark for Review</button>
@@ -169,21 +174,25 @@ String photo = (String)session.getAttribute("photo");
 					<%
 					    int[] buttons_color = (int[]) request.getAttribute("buttons_color");
 						int count =(int) request.getAttribute("count");
-					    for (int i = 1; i < count+1; i++) {
+					    for (int i = 0; i < count ; i++) {
 					        String classCol = null;
-					        if (buttons_color[i-1] == 0) {
+					        if(currentQuestionIndex  == i){
+					        	classCol = "notanswered-link";
+					        }
+					       
+					        if (buttons_color[i] == 0) {
 					            classCol = "notVisited-link";
-					        } else if (buttons_color[i-1] == 1 || (currentQuestionIndex+1) == i) {
+					        } else if (buttons_color[i] == 1) {
 					            classCol = "notanswered-link";    
-					        } else if (buttons_color[i-1] == 2) {
+					        } else if (buttons_color[i] == 2) {
 					            classCol = "answered-link";    
-					        } else if (buttons_color[i-1] == 3) {
+					        } else if (buttons_color[i] == 3) {
 					            classCol = "markedforreview-link";    
-					        } else if (buttons_color[i-1] == 4) {
+					        } else if (buttons_color[i] == 4) {
 					            classCol = "answeredandmarkedforreview-link";    
 					        }
 					%>
-					    <a href="${pageContext.request.contextPath}/examTestStart?num=<%= i-1 %>" class="<%= classCol %>"><%= i %></a>
+					    <a href="${pageContext.request.contextPath}/examTestStart?num=<%= i %>" class="<%= classCol %>"><%= i+1 %></a>
 					    
 					<%
 					    }

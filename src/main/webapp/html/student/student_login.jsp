@@ -27,7 +27,8 @@
         .form-group label {
             display: block;
             margin-bottom: 5px;
-            font-weight: bold;        }
+            font-weight: bold;        
+        }
         .form-group input {
             width: 100%;
             padding: 8px;
