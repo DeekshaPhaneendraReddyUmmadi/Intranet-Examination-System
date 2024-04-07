@@ -104,12 +104,6 @@ public class QuestionsDao {
 				isT = rs.getString("is_true");
 			}
 			
-//			if(isT == null) {
-//				statement = con.prepareStatement("UPDATE marks SET  is_true  = 'false' WHERE reference_number = ?");
-//				statement.setString(1, reference_number);
-//				rs=statement.executeQuery();
-//			}
-			
 			if(isT.equals("true")) {
 				return false;
 			}
@@ -130,6 +124,7 @@ public class QuestionsDao {
 		
 		System.out.println("reference Number : ; "+ reference_number);
 		if(isTrue(reference_number)) {
+			System.out.println("isTrue : "+ isTrue(reference_number));
 			genratingRandomNumbers("maths",reference_number);
 			genratingRandomNumbers("physics",reference_number);
 			genratingRandomNumbers("chemistry",reference_number);
@@ -333,6 +328,7 @@ public class QuestionsDao {
 
 	
 	public static void subjectOptionsPut(String subject , String reference_number) {
+		System.out.println("IN the QUESTIONS DAO subject pUT : "+ subject);
 		int count = countQuestions(subject);
 		int[] array = new int[count];
 		for(int i = 0 ; i < count ; i++) {
@@ -353,7 +349,8 @@ public class QuestionsDao {
 			String sql = "UPDATE marks SET " + randomQ + " = ? WHERE reference_number = ?";
 			PreparedStatement statement = con.prepareStatement(sql);
 			statement.setString(1,arr);
-			statement.executeQuery();
+			statement.setString(2, reference_number);
+			statement.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -408,6 +405,7 @@ public class QuestionsDao {
 	
 	
 	public static void subjectColorOptionsPut(String subject , String reference_number) {
+		System.out.println("IN the QUESTIONS DAO COLOR pUT : "+ subject);
 		int count = countQuestions(subject);
 		int[] array = new int[count];
 		for(int i = 0 ; i < count ; i++) {
@@ -428,7 +426,8 @@ public class QuestionsDao {
 			String sql = "UPDATE marks SET " + randomQ + " = ? WHERE reference_number = ?";
 			PreparedStatement statement = con.prepareStatement(sql);
 			statement.setString(1,arr);
-			statement.executeQuery();
+			statement.setString(2, reference_number);
+			statement.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -452,8 +451,6 @@ public class QuestionsDao {
 				    randomQ = "answers_c";
 				    color = "color_c";
 				}
-				System.out.println("in the questions  answers :  "+ answers);
-//				String sql = "UPDATE marks SET " + randomQ + " = ? ,"+ color +" = ? WHERE reference_number = ?";
 				String sql = "UPDATE marks SET " + randomQ + " = ?, " + color + " = ? WHERE reference_number = ?";
 
 				PreparedStatement statement = con.prepareStatement(sql);

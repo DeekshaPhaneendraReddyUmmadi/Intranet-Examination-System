@@ -9,13 +9,6 @@
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.io.Serializable" %>
 
- 
-
-
-
-
-
-
 
 <html lang="en">
   <head>
@@ -50,17 +43,7 @@
                 Time Left : <span id="timer" style="font-size:24px;">0</span> minutes
             </div>
           </div>
-         <!--  <div class="information subject">
-		    <div class="subs">
-		        <form action="/yourServletURL" method="GET" >
-		            <div class="sub"> <button type="submit" name="subject" value="Maths">Maths</button> <a class="instruction-btn i" style="color: white;" href="#">I</a></div>
-		            <div class="sub"> <button type="submit" name="subject" value="Physics">Physics</button> <a class="instruction-btn i" style="color: white;" href="#">I</a></div>
-		            <div class="sub" style="border-right: 3px solid gray"> <button type="submit" name="subject" value="Chemistry">Chemistry</button> <a class="instruction-btn i" style="color: white;" href="#">I</a></div>
-		        </form>
-		    </div>
-		  </div> -->
-		  
-		  
+	  
 		  <div class="information subject">
 		    <div class="button-container">
 		        <form action="${pageContext.request.contextPath}/examTestStart" method="GET">
@@ -96,9 +79,11 @@ String photo = (String)session.getAttribute("photo");
 				    int currentQuestionIndex = (Integer)request.getAttribute("currentQuestionIndex");
 				    int answered = (Integer)request.getAttribute("answered");
 				    int notAnswered = (Integer)request.getAttribute("notAnswered");
+				    int notVisited = (Integer)request.getAttribute("notVisited");
 				    int markForReview = (Integer)request.getAttribute("markForReview");
 				    int answeredMarkForReview = (Integer)request.getAttribute("answeredMarkForReview");
 				    String sub = (String)request.getAttribute("sub");
+				    String subjectOnWeb = (String)request.getAttribute("subjectOnWeb");
 				    
 				/* QuestionsEntity questions = (QuestionsEntity) request.getAttribute("question"); */
 				/* QuestionsEntity currentQuestion = questions.get(currentQuestionIndex);  */
@@ -153,7 +138,7 @@ String photo = (String)session.getAttribute("photo");
 	            </div>
 	
 	            <div style="display: flex;">
-	              <a href="#" class="notVisited-link"><% out.print(QuestionsDao.countQuestions(sub) - (currentQuestionIndex +1)); %></a><p>Not Visited</p>
+	              <a href="#" class="notVisited-link"><%= notVisited %></a><p>Not Visited</p>
 	              <a href="#" class="markedforreview-link"><%= markForReview  %></a><div style="width: 80px;">Marked for Review</div>
 	            </div>
 	
@@ -162,13 +147,13 @@ String photo = (String)session.getAttribute("photo");
 	              <p style="color: black;width:78%;">Answered & Marked for Review (will be considered for evaluation)</p>
 	            </div>
 	
-	            <div class="middle"><%= sub %></div>	
+	            <div class="middle" style="font-size:20px;"><%= subjectOnWeb %></div>	
 	            <div style="background-color: #bad3ed; padding-bottom:7px;">
 	              choose a question
 	            </div>
 	            </div>
 
-	          <div class="bottom " style="overflow-y: auto; min-height: 218px; margin-top:-25px; ">
+	          <div class="bottom " style="overflow-y: auto; min-height: 215px; margin-top:-25px; ">
 	            <div class="coloring-btn" style="background-color: #bad3ed ; ">
 	
 					<%
@@ -176,9 +161,7 @@ String photo = (String)session.getAttribute("photo");
 						int count =(int) request.getAttribute("count");
 					    for (int i = 0; i < count ; i++) {
 					        String classCol = null;
-					        if(currentQuestionIndex  == i){
-					        	classCol = "notanswered-link";
-					        }
+					        
 					       
 					        if (buttons_color[i] == 0) {
 					            classCol = "notVisited-link";
@@ -191,6 +174,10 @@ String photo = (String)session.getAttribute("photo");
 					        } else if (buttons_color[i] == 4) {
 					            classCol = "answeredandmarkedforreview-link";    
 					        }
+					        
+					        /* if(currentQuestionIndex  == i && buttons_color[i] != 2 && buttons_color[i] != 3 && buttons_color[i] != 4){
+					        	classCol = "notanswered-link";
+					        } */
 					%>
 					    <a href="${pageContext.request.contextPath}/examTestStart?num=<%= i %>" class="<%= classCol %>"><%= i+1 %></a>
 					    
@@ -219,7 +206,8 @@ String photo = (String)session.getAttribute("photo");
     </div> -->
         <div class="navigation right ">
             <!-- <button class="btm-btn-right" type="button" class="submit-button" onclick="submitExam()">Submit Exam</button> -->
-            <a class="btm-btn-right" href="#" onclick="submitExam()"> SUBMIT </a>
+            <a class="btm-btn-right" href="${pageContext.request.contextPath}/examTestStart?submitAll=submit"  onclick="submitExam()"> SUBMIT </a> 
+            <!-- <button type="button" class="btm-btn-right" name="submitAll" value="submit" >Submit</button> -->
         </div>
       </div>
     </div>

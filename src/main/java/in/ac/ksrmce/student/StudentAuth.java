@@ -36,12 +36,18 @@ public class StudentAuth extends HttpServlet {
 //    	System.out.println("password : (990)"+auth.getDob());
     	
     	HttpSession session = request.getSession();
+    	
+    	// once the user login then this application is hold the user session attributes till the 3.5 hours which means even the user is inactive it will hold the session data.
+    	int sessionDurationInSeconds = (int) (3.5 * 60 * 60);
+    	session.setMaxInactiveInterval(sessionDurationInSeconds);
+
+    	
     	session.setAttribute("userName", auth.getName());
-    	session.setAttribute("photo", request.getContextPath()+"/images/exam/"+auth.getPhoto());
+    	session.setAttribute("photo", request.getContextPath()+"/images/students/photo/"+auth.getPhoto());
     	session.setAttribute("reference_number", auth.getReferenceNumber());
     	
     	if(userName.equals(auth.getName()) && password.equals(auth.getDob())) {
-			response.sendRedirect(request.getContextPath()+"/examTestStart");
+			response.sendRedirect(request.getContextPath()+"/html/student/instructions.jsp");
 			
 		}
 	}
