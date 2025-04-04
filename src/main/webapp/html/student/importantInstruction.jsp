@@ -149,8 +149,7 @@
             style="margin-top: 10px; margin-left: 50px; justify-content: center; width: 100px ; height:30px; text-decoration: none; border: 2px solid black; border-radius: 3px; padding-top: 7px; padding-left: 20px; color:black;">
             < Previous</a>
             
-             <button href="${pageContext.request.contextPath}/examTestStart"
-                style="margin-top: 10px; margin-left : 67% ;display: flex; justify-content: center; width: 200px ; height:30px; text-decoration: none; border-radius: 3px; padding-top: 7px; background-color: rgb(221, 218, 218); color: white; border:none;"
+             <button href="${pageContext.request.contextPath}/examTestStart" style="margin-top: 10px; margin-left : 67% ;display: flex; justify-content: center; width: 200px ; height:30px; text-decoration: none; border-radius: 3px; padding-top: 7px; background-color: rgb(221, 218, 218); color: white; border:none;"
                 id="submitButton" disabled>I am ready to begin</button>
                 
                 

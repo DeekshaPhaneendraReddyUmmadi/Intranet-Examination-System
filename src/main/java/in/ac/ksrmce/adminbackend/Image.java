@@ -1,7 +1,6 @@
 package in.ac.ksrmce.adminbackend;
 
 import java.io.FileOutputStream;
-//import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -18,34 +17,35 @@ import jakarta.servlet.http.Part;
 public class Image extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public Image() {
-        super();
-    }
+	public Image() {
+		super();
+	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		Part file = request.getPart("file");
-		
+
 		String imgFileName = file.getSubmittedFileName();
 		System.out.println("selected image file name : " + imgFileName);
-		
+
 		String uploadPath = "C:/Users/phane/Desktop/project - final/program files/servelts/project/src/main/java/in/ac/ksrmce/uploadedImages";
-		System.out.println("uploaded path : "+ uploadPath +"/"+ imgFileName);
-		
+		System.out.println("uploaded path : " + uploadPath + "/" + imgFileName);
+
 		try {
 			FileOutputStream fos = new FileOutputStream(uploadPath);
 			InputStream is = file.getInputStream();
-			
+
 			byte[] data = new byte[is.available()];
 			is.read(data);
 			fos.write(data);
 			fos.close();
 			is.close();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

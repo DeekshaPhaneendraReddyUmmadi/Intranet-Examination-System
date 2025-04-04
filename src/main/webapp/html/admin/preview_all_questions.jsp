@@ -21,6 +21,7 @@
 	<table>
         <tr>
             <th>Question ID</th>
+            <th>Subject</th>
             <th>Question Image</th>
             <th>Option 1</th>
             <th>Option 2</th>
@@ -33,6 +34,7 @@
                 <div>
                 	<tr>
                 	<td class="id"><%= q.getId() %></td>
+                	<td class="id"><%= q.getSubject() %></td>
                     <td><img class="question" src="../../images/questions/<%= q.getQuestion() %>" alt="Question Image"></td>
                     <td><img src="../../images/questions/<%= q.getOption_one() %>" alt="Option 1"></td>
                     <td><img src="../../images/questions/<%= q.getOption_two() %>" alt="Option 2"></td>

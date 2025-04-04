@@ -12,15 +12,17 @@ import jakarta.servlet.http.HttpServletResponse;
 public class Admin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public Admin() {
-        super();
-    }
+	public Admin() {
+		super();
+	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.getWriter().println("authenticated Successfully!!!");
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 

@@ -21,7 +21,7 @@ import jakarta.servlet.http.Part;
 @MultipartConfig
 public class StudentsInfo extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String tableName = "students_info"; // Specify your table name here
@@ -30,15 +30,16 @@ public class StudentsInfo extends HttpServlet {
         if (filePart != null) {
             inputStream = filePart.getInputStream();
         }
-        
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String line;
         Connection con = null;
         try {
-        	con = StudentDao.getConnection();
+            con = StudentDao.getConnection();
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",");
-                String sql = "INSERT INTO " + tableName + "(name,age) VALUES (?, ?)"; // Adjust the query as per your table structure
+                String sql = "INSERT INTO " + tableName + "(name,age) VALUES (?, ?)"; // Adjust the query as per your
+                                                                                      // table structure
                 PreparedStatement statement = con.prepareStatement(sql);
                 for (int i = 0; i < values.length; i++) {
                     statement.setString(i + 1, values[i]);
@@ -60,4 +61,3 @@ public class StudentsInfo extends HttpServlet {
         }
     }
 }
-

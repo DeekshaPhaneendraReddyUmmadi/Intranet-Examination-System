@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConfigQuestions {
-	public static Connection getConnection() throws  ClassNotFoundException{
+	public static Connection getConnection() throws ClassNotFoundException {
 		String url = "jdbc:mysql://localhost:3306/college_project";
 		String username = "phanee";
 		String password = "Mynewsql 1";
@@ -13,7 +13,7 @@ public class DatabaseConfigQuestions {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection con = null;
 		try {
-			con = DriverManager.getConnection(url,username,password);
+			con = DriverManager.getConnection(url, username, password);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -22,16 +22,24 @@ public class StudentSave extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String name = request.getParameter("name");;
-        String roll = request.getParameter("roll");;
-        String fatherName = request.getParameter("fathername");;
-        String email = request.getParameter("email");;
-        String mobile = request.getParameter("mobile");;
-        String gender = request.getParameter("gender");;
-        String dob = request.getParameter("dob");;
-        String district = request.getParameter("district");;
-        String passport_size_photo = request.getParameter("passport_size_photo");;
-        String hallticket_photo = request.getParameter("hallticket_photo");;
+        String name = request.getParameter("name");
+        ;
+        String roll = request.getParameter("roll");
+        ;
+        String fatherName = request.getParameter("fathername");
+        ;
+        String email = request.getParameter("email");
+        ;
+        String mobile = request.getParameter("mobile");
+        ;
+        String gender = request.getParameter("gender");
+        ;
+        String dob = request.getParameter("dob");
+        ;
+        String district = request.getParameter("district");
+        ;
+        // String passport_size_photo = request.getParameter("passport_size_photo");;
+        // String hallticket_photo = request.getParameter("hallticket_photo");;
 
         StudentEntity student = new StudentEntity();
         student.setName(name);
@@ -42,8 +50,8 @@ public class StudentSave extends HttpServlet {
         student.setGender(gender);
         student.setDob(dob);
         student.setDistrict(district);
-        student.setPassport_size_photo(passport_size_photo);
-        student.setHallticket_photo(hallticket_photo);
+        // student.setPassport_size_photo(passport_size_photo);
+        // student.setHallticket_photo(hallticket_photo);
 
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();

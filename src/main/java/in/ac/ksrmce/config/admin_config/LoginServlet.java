@@ -16,18 +16,16 @@ public class LoginServlet extends HttpServlet {
         String user_name = request.getParameter("user_name");
         String password = request.getParameter("password");
         
-        // Perform authentication (e.g., check credentials against database)
         boolean isAuthenticated = authenticate(user_name, password);
         if (isAuthenticated) {
-            HttpSession session = request.getSession(true); // Create a new session if it doesn't exist
-            session.setAttribute("user_name", user_name); // Store username in session
-            response.sendRedirect("/project/html/admin/admin_home.jsp"); // Redirect to home page after successful login
+            HttpSession session = request.getSession(true);
+            session.setAttribute("user_name", user_name);
+            response.sendRedirect("/project/html/admin/admin_home.jsp");
         } else {
-            response.sendRedirect("/project/html/admin/admin.jsp?error=1"); // Redirect to login page with error parameter
+            response.sendRedirect("/project/html/admin/admin.jsp?error=1");
         }
     }
     
-    // Method to authenticate user (replace with your authentication logic)
     private boolean authenticate(String user_name, String password) {
     	AdminEntity auth = AdminDao.getEmployeeByName(user_name);
     	return user_name.equals(auth.getUser_name()) && password.equals(auth.getPassword());
